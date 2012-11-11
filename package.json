@@ -1,7 +1,7 @@
 {
   "name": "kerouac-sitemap",
   "version": "0.1.0",
-  "description": "Sitemaps plugin for Kerouac.",
+  "description": "Sitemap plugin for Kerouac.",
   "keywords": ["sitemap", "sitemaps"],
   "repository": {
     "type": "git",
