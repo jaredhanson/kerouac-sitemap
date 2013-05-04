@@ -77,6 +77,122 @@ describe('sitemap plugin', function() {
     });
   });
   
+  describe('when invoked on a site with a robots.txt file', function() {
+    var site = new MockSite();
+    site.set('base url', 'http://www.example.com/')
+    site.page('/hello.html', function(){});
+    site.page('/robots.txt', function(){});
+    
+    sitemap()(site, site.pages);
+    
+    it('should add /sitemap.xml page', function() {
+      expect(site.pages).to.include.keys('/sitemap.xml');
+    });
+    
+    describe('and then rendering sitemap.xml', function() {
+      var p = site.pages['/sitemap.xml'];
+
+      it('should write .htaccess', function(done) {
+        var expected = [
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+          '  <url>',
+          '    <loc>http://www.example.com/hello.html</loc>',
+          '  </url>',
+          '</urlset>',
+          ''
+        ].join("\n");
+        
+        p.end = function() {
+          expect(p.data).to.equal(expected);
+          done();
+        };
+        
+        p.fn(p, function(err) {
+          return done(new Error('should not call next'));
+        });
+      });
+    });
+  });
+  
+  describe('when invoked on a site with CSS and JavaScript', function() {
+    var site = new MockSite();
+    site.set('base url', 'http://www.example.com/')
+    site.page('/hello.html', function(){});
+    site.page('/css/site.css', function(){});
+    site.page('/js/main.js', function(){});
+    
+    sitemap()(site, site.pages);
+    
+    it('should add /sitemap.xml page', function() {
+      expect(site.pages).to.include.keys('/sitemap.xml');
+    });
+    
+    describe('and then rendering sitemap.xml', function() {
+      var p = site.pages['/sitemap.xml'];
+
+      it('should write .htaccess', function(done) {
+        var expected = [
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+          '  <url>',
+          '    <loc>http://www.example.com/hello.html</loc>',
+          '  </url>',
+          '</urlset>',
+          ''
+        ].join("\n");
+        
+        p.end = function() {
+          expect(p.data).to.equal(expected);
+          done();
+        };
+        
+        p.fn(p, function(err) {
+          return done(new Error('should not call next'));
+        });
+      });
+    });
+  });
+  
+  describe('when invoked on a site with multiple sitemaps', function() {
+    var site = new MockSite();
+    site.set('base url', 'http://www.example.com/')
+    site.page('/hello.html', function(){});
+    site.page('/sitemap2.xml', function(){});
+    site.pages['/sitemap2.xml'].sitemap = true;
+    
+    sitemap()(site, site.pages);
+    
+    it('should add /sitemap.xml page', function() {
+      expect(site.pages).to.include.keys('/sitemap.xml');
+    });
+    
+    describe('and then rendering sitemap.xml', function() {
+      var p = site.pages['/sitemap.xml'];
+
+      it('should write .htaccess', function(done) {
+        var expected = [
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+          '  <url>',
+          '    <loc>http://www.example.com/hello.html</loc>',
+          '  </url>',
+          '</urlset>',
+          ''
+        ].join("\n");
+        
+        p.end = function() {
+          expect(p.data).to.equal(expected);
+          done();
+        };
+        
+        p.fn(p, function(err) {
+          return done(new Error('should not call next'));
+        });
+      });
+    });
+  });
+  
   describe('when invoked on a site without base url setting', function() {
     var site = new MockSite();
     
