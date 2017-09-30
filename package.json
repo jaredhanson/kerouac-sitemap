@@ -1,8 +1,16 @@
 {
   "name": "kerouac-sitemap",
   "version": "0.1.1",
-  "description": "Sitemap plugin for Kerouac.",
-  "keywords": ["sitemap", "sitemaps"],
+  "description": "Sitemap middleware for Kerouac.",
+  "keywords": [
+    "sitemap",
+    "sitemaps"
+  ],
+  "author": {
+    "name": "Jared Hanson",
+    "email": "jaredhanson@gmail.com",
+    "url": "http://www.jaredhanson.net/"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/jaredhanson/kerouac-sitemap.git"
@@ -10,26 +18,27 @@
   "bugs": {
     "url": "http://github.com/jaredhanson/kerouac-sitemap/issues"
   },
-  "author": {
-    "name": "Jared Hanson",
-    "email": "jaredhanson@gmail.com",
-    "url": "http://www.jaredhanson.net/"
-  },
-  "licenses": [ {
-    "type": "MIT",
-    "url": "http://www.opensource.org/licenses/MIT" 
-  } ],
+  "license": "MIT",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    }
+  ],
   "main": "./lib",
   "dependencies": {
     "xmlbuilder": "0.4.x"
   },
   "devDependencies": {
+    "make-node": "0.3.x",
     "mocha": "1.x.x",
     "chai": "1.x.x",
     "chai-kerouac-middleware": "0.0.x"
   },
+  "engines": {
+    "node": ">= 0.6.0"
+  },
   "scripts": {
     "test": "NODE_PATH=./lib node_modules/.bin/mocha --reporter spec --require test/node/bootstrap test/*.test.js"
-  },
-  "engines": { "node": ">= 0.6.0" }
+  }
 }
