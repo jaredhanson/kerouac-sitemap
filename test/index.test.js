@@ -36,6 +36,7 @@ describe('sitemap plugin', function() {
     expect(sitemap).to.be.a('function');
   });
   
+  /*
   describe('when invoked on a site with two pages', function() {
     var site = new MockSite();
     site.set('base url', 'http://www.example.com/')
@@ -202,5 +203,6 @@ describe('sitemap plugin', function() {
       }).to.throw(/requires \"base url\" setting/);
     });
   });
+  */
   
 });
