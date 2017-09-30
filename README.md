@@ -1,5 +1,12 @@
 # kerouac-sitemap
 
+[![Version](https://img.shields.io/npm/v/kerouac-sitemap.svg?label=version)](https://www.npmjs.com/package/kerouac-sitemap)
+[![Build](https://img.shields.io/travis/jaredhanson/kerouac-sitemap.svg)](https://travis-ci.org/jaredhanson/kerouac-sitemap)
+[![Quality](https://img.shields.io/codeclimate/github/jaredhanson/kerouac-sitemap.svg?label=quality)](https://codeclimate.com/github/jaredhanson/kerouac-sitemap)
+[![Coverage](https://img.shields.io/coveralls/jaredhanson/kerouac-sitemap.svg)](https://coveralls.io/r/jaredhanson/kerouac-sitemap)
+[![Dependencies](https://img.shields.io/david/jaredhanson/kerouac-sitemap.svg)](https://david-dm.org/jaredhanson/kerouac-sitemap)
+
+
 This is a [Kerouac](https://github.com/jaredhanson/kerouac) plugin that
 generates a [sitemap](http://www.sitemaps.org/), informing search engines about
 pages that are available for crawling
