@@ -79,6 +79,10 @@ describe('urlset', function() {
       
       expect(page.body).to.equal(expected);
     });
+    
+    it('should set sitemap property', function() {
+      expect(page.sitemap).to.equal(true);
+    });
   }); // with two pages
   
   describe('with site containing /robots.txt', function() {
