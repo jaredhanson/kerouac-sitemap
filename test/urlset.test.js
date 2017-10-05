@@ -41,6 +41,10 @@ describe('urlset', function() {
       
       expect(page.body).to.equal(expected);
     });
+    
+    it('should set sitemap property', function() {
+      expect(page.sitemap).to.equal(true);
+    });
   }); // with one page
   
   describe('with two pages', function() {
@@ -79,11 +83,119 @@ describe('urlset', function() {
       
       expect(page.body).to.equal(expected);
     });
+  }); // with two pages
+  
+  describe('with one section', function() {
+    var page, err;
+
+    before(function(done) {
+      chai.kerouac.use(sitemap())
+        .page(function(page) {
+          page.url = '/blog/sitemap.xml';
+          var blog = new mock.Site();
+          
+          page.site = new mock.Site();
+          page.site.set('base url', 'http://www.example.com/');
+          page.section = blog;
+          page.pages = [
+            { url: '/blog', section: blog },
+            { url: '/blog/hello', section: blog },
+            { url: '/blog/hello-again', section: blog }
+          ];
+        })
+        .end(function(p) {
+          page = p;
+          done();
+        })
+        .dispatch();
+    });
+  
+    it('should write sitemap.xml', function() {
+      var expected = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+        '  <url>',
+        '    <loc>http://www.example.com/blog</loc>',
+        '  </url>',
+        '  <url>',
+        '    <loc>http://www.example.com/blog/hello</loc>',
+        '  </url>',
+        '  <url>',
+        '    <loc>http://www.example.com/blog/hello-again</loc>',
+        '  </url>',
+        '</urlset>',
+        ''
+      ].join("\n");
+      
+      expect(page.body).to.equal(expected);
+    });
     
     it('should set sitemap property', function() {
       expect(page.sitemap).to.equal(true);
     });
-  }); // with two pages
+    
+    it('should set sitemap on section', function() {
+      expect(page.section.sitemap).to.be.an('object')
+    });
+  }); // with one section
+  
+  describe('with two sections, one of which already has a sitemap', function() {
+    var page, err;
+
+    before(function(done) {
+      chai.kerouac.use(sitemap())
+        .page(function(page) {
+          page.url = '/blog/sitemap.xml';
+          var blog = new mock.Site();
+          var legal = new mock.Site();
+          legal.sitemap = { url: '/legal/sitemap.xml' }
+          
+          page.site = new mock.Site();
+          page.site.set('base url', 'http://www.example.com/');
+          page.section = blog;
+          page.pages = [
+            { url: '/blog', section: blog },
+            { url: '/blog/hello', section: blog },
+            { url: '/blog/hello-again', section: blog },
+            { url: '/legal/terms', section: legal },
+            { url: '/legal/privacy', section: legal }
+          ];
+        })
+        .end(function(p) {
+          page = p;
+          done();
+        })
+        .dispatch();
+    });
+  
+    it('should write sitemap.xml', function() {
+      var expected = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+        '  <url>',
+        '    <loc>http://www.example.com/blog</loc>',
+        '  </url>',
+        '  <url>',
+        '    <loc>http://www.example.com/blog/hello</loc>',
+        '  </url>',
+        '  <url>',
+        '    <loc>http://www.example.com/blog/hello-again</loc>',
+        '  </url>',
+        '</urlset>',
+        ''
+      ].join("\n");
+      
+      expect(page.body).to.equal(expected);
+    });
+    
+    it('should set sitemap property', function() {
+      expect(page.sitemap).to.equal(true);
+    });
+    
+    it('should set sitemap on section', function() {
+      expect(page.section.sitemap).to.be.an('object')
+    });
+  }); // with two sections, one of which already has a sitemap
   
   describe('with assets', function() {
     var page, err;
