@@ -298,4 +298,28 @@ describe('urlset', function() {
     });
   }); // with site containing CNAME
   
+  describe('without base url setting', function() {
+    var page, err;
+
+    before(function(done) {
+      chai.kerouac.use(sitemap())
+        .page(function(page) {
+          page.site = new mock.Site();
+          page.pages = [
+            { url: '/hello' },
+          ];
+        })
+        .next(function(e) {
+          err = e;
+          done();
+        })
+        .dispatch();
+    });
+  
+    it('should error', function() {
+      expect(err).to.be.an.instanceOf(Error);
+      expect(err.message).to.equal('sitemaps require "base url" setting');
+    });
+  }); // without base url setting
+  
 });
