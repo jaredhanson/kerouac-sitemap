@@ -91,4 +91,29 @@ describe('sitemapindex', function() {
     });
   }); // with two sitemaps
   
+  describe('without base url setting', function() {
+    var page, err;
+
+    before(function(done) {
+      chai.kerouac.use(sitemap.index())
+        .page(function(page) {
+          page.site = new mock.Site();
+          page.pages = [
+            { url: '/hello' },
+            { url: '/sitemap.xml', sitemap: true }
+          ];
+        })
+        .next(function(e) {
+          err = e;
+          done();
+        })
+        .dispatch();
+    });
+  
+    it('should error', function() {
+      expect(err).to.be.an.instanceOf(Error);
+      expect(err.message).to.equal('sitemaps require "base url" setting');
+    });
+  }); // without base url setting
+  
 });
