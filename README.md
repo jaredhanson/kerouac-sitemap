@@ -7,8 +7,8 @@
 [![Dependencies](https://img.shields.io/david/jaredhanson/kerouac-sitemap.svg)](https://david-dm.org/jaredhanson/kerouac-sitemap)
 
 
-This is a [Kerouac](https://github.com/jaredhanson/kerouac) plugin that
-generates a [sitemap](http://www.sitemaps.org/), informing search engines about
+[Kerouac](https://github.com/jaredhanson/kerouac) middleware that generates
+generates [sitemaps](http://www.sitemaps.org/), informing search engines about
 pages that are available for crawling
 
 ## Install
@@ -17,21 +17,18 @@ pages that are available for crawling
     
 ## Usage
 
-Simply plug `kerouac-sitemap` into your site.  The generated output will include
-a `/sitemap.xml` resource.
+Simply declare a `sitemap.xml` page, using this middleware.
 
-    site.plug(require('kerouac-sitemap')());
+```js
+site.page('/sitemap.xml', require('kerouac-sitemap')());
+```
 
-## Tests
+If your site consists of multiple sections, each of which has a separate
+sitemap, a sitemap index can be generated.
 
-    $ npm install
-    $ make test
-
-[![Build Status](https://secure.travis-ci.org/jaredhanson/kerouac-sitemap.png)](http://travis-ci.org/jaredhanson/kerouac-sitemap)  [![David DM](https://david-dm.org/jaredhanson/kerouac-sitemap.png)](http://david-dm.org/jaredhanson/kerouac-sitemap)
-
-## Credits
-
-  - [Jared Hanson](http://github.com/jaredhanson)
+```js
+site.page('/sitemap_index.xml', require('kerouac-sitemap').index());
+```
 
 ## License
 
