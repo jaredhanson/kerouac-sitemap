@@ -263,4 +263,39 @@ describe('urlset', function() {
     });
   }); // with site containing .htaccess files
   
+  describe('with site containing CNAME', function() {
+    var page, err;
+
+    before(function(done) {
+      chai.kerouac.use(sitemap())
+        .page(function(page) {
+          page.site = new mock.Site();
+          page.site.set('base url', 'http://www.example.com/');
+          page.pages = [
+            { url: '/CNAME' },
+            { url: '/hello' },
+          ];
+        })
+        .end(function(p) {
+          page = p;
+          done();
+        })
+        .dispatch();
+    });
+  
+    it('should write sitemap.xml', function() {
+      var expected = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+        '  <url>',
+        '    <loc>http://www.example.com/hello</loc>',
+        '  </url>',
+        '</urlset>',
+        ''
+      ].join("\n");
+      
+      expect(page.body).to.equal(expected);
+    });
+  }); // with site containing CNAME
+  
 });
