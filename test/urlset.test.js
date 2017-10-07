@@ -15,10 +15,10 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
+          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
-          page.site.set('base url', 'http://www.example.com/');
-          page.pages = [
-            { url: '/' }
+          page.site.pages = [
+            { url: '/', fullURL: 'http://www.example.com/' }
           ];
         })
         .end(function(p) {
@@ -53,10 +53,11 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
+          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
-          page.site.set('base url', 'http://www.example.com/');
-          page.pages = [
+          page.site.pages = [
             { url: '/',
+              fullURL: 'http://www.example.com/',
               modifiedAt: new Date(Date.UTC(2017, 8, 3, 17, 30, 15)) }
           ];
         })
@@ -93,11 +94,12 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
+          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
           page.site.set('base url', 'http://www.example.com/');
-          page.pages = [
-            { url: '/' },
-            { url: '/contact/' }
+          page.site.pages = [
+            { url: '/', fullURL: 'http://www.example.com/' },
+            { url: '/contact/', fullURL: 'http://www.example.com/contact/' }
           ];
         })
         .end(function(p) {
@@ -125,6 +127,7 @@ describe('urlset', function() {
     });
   }); // with two pages
   
+  /*
   describe('with one section', function() {
     var page, err;
 
@@ -178,7 +181,9 @@ describe('urlset', function() {
       expect(page.section.sitemap).to.be.an('object')
     });
   }); // with one section
+  */
   
+  /*
   describe('with two sections, one of which already has a sitemap', function() {
     var page, err;
 
@@ -236,7 +241,9 @@ describe('urlset', function() {
       expect(page.section.sitemap).to.be.an('object')
     });
   }); // with two sections, one of which already has a sitemap
+  */
   
+  /*
   describe('with nested sections, neither of which has a sitemap', function() {
     var page, err;
 
@@ -294,7 +301,9 @@ describe('urlset', function() {
       expect(page.section.sitemap).to.be.an('object')
     });
   }); // with nested sections, neither of which has a sitemap
+  */
   
+  /*
   describe('with nested sections, deepest of which has a sitemap', function() {
     var page, err;
 
@@ -350,7 +359,9 @@ describe('urlset', function() {
       expect(page.section.sitemap).to.be.an('object')
     });
   }); // with nested sections, deepest of which has a sitemap
+  */
   
+  /*
   describe('global sitemap with nested sections', function() {
     var page, err;
 
@@ -406,6 +417,7 @@ describe('urlset', function() {
       expect(page.section.sitemap).to.be.an('object')
     });
   }); // global sitemap with nested sections
+  */
   
   describe('with assets', function() {
     var page, err;
@@ -413,12 +425,12 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
+          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
-          page.site.set('base url', 'http://www.example.com/');
-          page.pages = [
-            { url: '/hello.html' },
-            { url: '/assets/script.js' },
-            { url: '/assets/stylesheet.css' }
+          page.site.pages = [
+            { url: '/hello.html', fullURL: 'http://www.example.com/hello.html' },
+            { url: '/assets/script.js', fullURL: 'http://www.example.com/assets/script.js' },
+            { url: '/assets/stylesheet.css', fullURL: 'http://www.example.com/assets/stylesheet.css' }
           ];
         })
         .end(function(p) {
@@ -449,11 +461,11 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
+          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
-          page.site.set('base url', 'http://www.example.com/');
-          page.pages = [
-            { url: '/robots.txt' },
-            { url: '/hello' },
+          page.site.pages = [
+            { url: '/robots.txt', fullURL: 'http://www.example.com/robots.txt' },
+            { url: '/hello', fullURL: 'http://www.example.com/hello' },
           ];
         })
         .end(function(p) {
@@ -484,13 +496,13 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
+          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
-          page.site.set('base url', 'http://www.example.com/');
-          page.pages = [
-            { url: '/hello' },
-            { url: '/stores/store1_sitemap.xml', sitemap: true },
-            { url: '/stores/store2_sitemap.xml', sitemap: true },
-            { url: '/stores/store3_sitemap.xml', sitemap: true }
+          page.site.pages = [
+            { url: '/hello', fullURL: 'http://www.example.com/hello' },
+            { url: '/stores/store1_sitemap.xml', fullURL: 'http://www.example.com/stores/store1_sitemap.xml', sitemap: true },
+            { url: '/stores/store2_sitemap.xml', fullURL: 'http://www.example.com/stores/store2_sitemap.xml', sitemap: true },
+            { url: '/stores/store3_sitemap.xml', fullURL: 'http://www.example.com/stores/store3_sitemap.xml', sitemap: true }
           ];
         })
         .end(function(p) {
@@ -521,11 +533,11 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
+          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
-          page.site.set('base url', 'http://www.example.com/');
-          page.pages = [
-            { url: '/hello' },
-            { url: '/sitemap_index.xml', sitemapIndex: true }
+          page.site.pages = [
+            { url: '/hello', fullURL: 'http://www.example.com/hello' },
+            { url: '/sitemap_index.xml', fullURL: 'http://www.example.com/sitemap_index.xml', sitemapIndex: true }
           ];
         })
         .end(function(p) {
@@ -556,11 +568,11 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
+          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
-          page.site.set('base url', 'http://www.example.com/');
-          page.pages = [
-            { url: '/.htaccess' },
-            { url: '/hello' },
+          page.site.pages = [
+            { url: '/.htaccess', fullURL: 'http://www.example.com/.htaccess' },
+            { url: '/hello', fullURL: 'http://www.example.com/hello' },
           ];
         })
         .end(function(p) {
@@ -591,11 +603,11 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
+          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
-          page.site.set('base url', 'http://www.example.com/');
-          page.pages = [
-            { url: '/CNAME' },
-            { url: '/hello' },
+          page.site.pages = [
+            { url: '/CNAME', fullURL: 'http://www.example.com/CNAME' },
+            { url: '/hello', fullURL: 'http://www.example.com/hello' },
           ];
         })
         .end(function(p) {

@@ -15,11 +15,11 @@ describe('sitemapindex', function() {
     before(function(done) {
       chai.kerouac.use(sitemap.index())
         .page(function(page) {
+          page.baseURL = 'http://www.example.com';
           page.site = new mock.Site();
-          page.site.set('base url', 'http://www.example.com/');
-          page.pages = [
-            { url: '/hello' },
-            { url: '/sitemap.xml', sitemap: true }
+          page.site.pages = [
+            { url: '/hello', fullURL: 'http://www.example.com/hello' },
+            { url: '/sitemap.xml', fullURL: 'http://www.example.com/sitemap.xml', sitemap: true }
           ];
         })
         .end(function(p) {
@@ -58,12 +58,12 @@ describe('sitemapindex', function() {
     before(function(done) {
       chai.kerouac.use(sitemap.index())
         .page(function(page) {
+          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
-          page.site.set('base url', 'http://www.example.com/');
-          page.pages = [
-            { url: '/hello' },
-            { url: '/sitemap1.xml', sitemap: true },
-            { url: '/sitemap2.xml', sitemap: true }
+          page.site.pages = [
+            { url: '/hello', fullURL: 'http://www.example.com/hello' },
+            { url: '/sitemap1.xml', fullURL: 'http://www.example.com/sitemap1.xml', sitemap: true },
+            { url: '/sitemap2.xml', fullURL: 'http://www.example.com/sitemap2.xml', sitemap: true }
           ];
         })
         .end(function(p) {
