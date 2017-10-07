@@ -15,7 +15,6 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
           page.site.pages = [
             { url: '/', fullURL: 'http://www.example.com/' }
@@ -53,7 +52,6 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
           page.site.pages = [
             { url: '/',
@@ -94,7 +92,6 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
           page.site.pages = [
             { url: '/', fullURL: 'http://www.example.com/' },
@@ -132,7 +129,6 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
           page.site.pages = [
             { url: '/blog', fullURL: 'http://www.example.com/blog' },
@@ -180,7 +176,6 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
           page.site.pages = [
             { url: '/hello.html', fullURL: 'http://www.example.com/hello.html' },
@@ -216,7 +211,6 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
           page.site.pages = [
             { url: '/robots.txt', fullURL: 'http://www.example.com/robots.txt' },
@@ -251,7 +245,6 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
           page.site.pages = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
@@ -288,7 +281,6 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
           page.site.pages = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
@@ -323,7 +315,6 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
           page.site.pages = [
             { url: '/.htaccess', fullURL: 'http://www.example.com/.htaccess' },
@@ -358,7 +349,6 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
           page.site.pages = [
             { url: '/CNAME', fullURL: 'http://www.example.com/CNAME' },
@@ -393,8 +383,10 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
+          page.absoluteURL = '/welcome'
+          
           page.site = new mock.Site();
-          page.pages = [
+          page.site.pages = [
             { url: '/hello' },
           ];
         })
@@ -407,7 +399,7 @@ describe('urlset', function() {
   
     it('should error', function() {
       expect(err).to.be.an.instanceOf(Error);
-      expect(err.message).to.equal('sitemaps require "base url" setting');
+      expect(err.message).to.equal('Unable to add "/welcome" to sitemap, set \'base url\' setting and try again');
     });
   }); // without base url setting
   
