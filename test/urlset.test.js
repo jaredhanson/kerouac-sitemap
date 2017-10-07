@@ -383,11 +383,9 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.absoluteURL = '/welcome'
-          
           page.site = new mock.Site();
           page.site.pages = [
-            { url: '/hello' },
+            { url: '/hello', absoluteURL: '/hello' },
           ];
         })
         .next(function(e) {
@@ -399,7 +397,7 @@ describe('urlset', function() {
   
     it('should error', function() {
       expect(err).to.be.an.instanceOf(Error);
-      expect(err.message).to.equal('Unable to add "/welcome" to sitemap, set \'base url\' setting and try again');
+      expect(err.message).to.equal('Unable to add "/hello" to sitemap, set \'base url\' setting and try again');
     });
   }); // without base url setting
   

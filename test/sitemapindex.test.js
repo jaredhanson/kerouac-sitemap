@@ -15,7 +15,6 @@ describe('sitemapindex', function() {
     before(function(done) {
       chai.kerouac.use(sitemap.index())
         .page(function(page) {
-          page.baseURL = 'http://www.example.com';
           page.site = new mock.Site();
           page.site.pages = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
@@ -58,7 +57,6 @@ describe('sitemapindex', function() {
     before(function(done) {
       chai.kerouac.use(sitemap.index())
         .page(function(page) {
-          page.baseURL = 'http://www.example.com/';
           page.site = new mock.Site();
           page.site.pages = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
@@ -98,9 +96,9 @@ describe('sitemapindex', function() {
       chai.kerouac.use(sitemap.index())
         .page(function(page) {
           page.site = new mock.Site();
-          page.pages = [
+          page.site.pages = [
             { url: '/hello' },
-            { url: '/sitemap.xml', sitemap: true }
+            { url: '/sitemap.xml', absoluteURL: '/sitemap.xml', sitemap: true }
           ];
         })
         .next(function(e) {
@@ -112,7 +110,7 @@ describe('sitemapindex', function() {
   
     it('should error', function() {
       expect(err).to.be.an.instanceOf(Error);
-      expect(err.message).to.equal('sitemaps require "base url" setting');
+      expect(err.message).to.equal('Unable to add "/sitemap.xml" to sitemap, set \'base url\' setting and try again');
     });
   }); // without base url setting
   
