@@ -15,6 +15,8 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
+          page.absoluteURL = '/sitemap.xml'
+          
           page.site = new mock.Site();
           page.site.pages = [
             { url: '/', fullURL: 'http://www.example.com/' }
@@ -43,6 +45,10 @@ describe('urlset', function() {
     
     it('should set sitemap property', function() {
       expect(page.sitemap).to.equal(true);
+    });
+    
+    it('should add pages to sitemap', function() {
+      expect(page.site.pages[0]._inSitemap).to.equal('/sitemap.xml');
     });
   }); // with one page
   

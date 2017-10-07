@@ -15,6 +15,8 @@ describe('sitemapindex', function() {
     before(function(done) {
       chai.kerouac.use(sitemap.index())
         .page(function(page) {
+          page.absoluteURL = '/sitemap_index.xml';
+          
           page.site = new mock.Site();
           page.site.pages = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
@@ -48,6 +50,11 @@ describe('sitemapindex', function() {
     
     it('should not set sitemap property', function() {
       expect(page.sitemap).to.equal(undefined);
+    });
+    
+    it('should add sitemaps to sitemap index', function() {
+      expect(page.site.pages[0]._inSitemap).to.equal(undefined);
+      expect(page.site.pages[1]._inSitemap).to.equal('/sitemap_index.xml');
     });
   }); // with one sitemap
   
