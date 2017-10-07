@@ -47,6 +47,46 @@ describe('urlset', function() {
     });
   }); // with one page
   
+  describe('with one page, including lastmod', function() {
+    var page, err;
+
+    before(function(done) {
+      chai.kerouac.use(sitemap())
+        .page(function(page) {
+          page.site = new mock.Site();
+          page.site.set('base url', 'http://www.example.com/');
+          page.pages = [
+            { url: '/',
+              modifiedAt: new Date(Date.UTC(2017, 8, 3, 17, 30, 15)) }
+          ];
+        })
+        .end(function(p) {
+          page = p;
+          done();
+        })
+        .dispatch();
+    });
+  
+    it('should write sitemap.xml', function() {
+      var expected = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+        '  <url>',
+        '    <loc>http://www.example.com/</loc>',
+        '    <lastmod>2017-09-03T17:30:15+00:00</lastmod>',
+        '  </url>',
+        '</urlset>',
+        ''
+      ].join("\n");
+      
+      expect(page.body).to.equal(expected);
+    });
+    
+    it('should set sitemap property', function() {
+      expect(page.sitemap).to.equal(true);
+    });
+  }); // with one page, including lastmod
+  
   describe('with two pages', function() {
     var page, err;
 
