@@ -96,6 +96,41 @@ describe('sitemapindex', function() {
     });
   }); // with two sitemaps
   
+  describe('with two sitemaps, one of which is already in a sitemap index', function() {
+    var page, err;
+
+    before(function(done) {
+      chai.kerouac.use(sitemap.index())
+        .page(function(page) {
+          page.site = new mock.Site();
+          page.site.pages = [
+            { url: '/hello', fullURL: 'http://www.example.com/hello' },
+            { url: '/sitemap1.xml', fullURL: 'http://www.example.com/sitemap1.xml', sitemap: true },
+            { url: '/foo/sitemap2.xml', fullURL: 'http://www.example.com/sitemap2.xml', sitemap: true, _inSitemap: '/foo/sitemapindex.xml' }
+          ];
+        })
+        .end(function(p) {
+          page = p;
+          done();
+        })
+        .dispatch();
+    });
+  
+    it('should write sitemap.xml', function() {
+      var expected = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+        '  <sitemap>',
+        '    <loc>http://www.example.com/sitemap1.xml</loc>',
+        '  </sitemap>',
+        '</sitemapindex>',
+        ''
+      ].join("\n");
+      
+      expect(page.body).to.equal(expected);
+    });
+  }); // with two sitemaps, one of which is already in a sitemap index
+  
   describe('without base url setting', function() {
     var page, err;
 

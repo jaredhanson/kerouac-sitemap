@@ -129,7 +129,7 @@ describe('urlset', function() {
     });
   }); // with two pages
   
-  describe('with two sections, one of which already has a sitemap', function() {
+  describe('with multiple pages, some of which are already in a sitemap', function() {
     var page, err;
 
     before(function(done) {
@@ -174,7 +174,7 @@ describe('urlset', function() {
     it('should set sitemap property', function() {
       expect(page.sitemap).to.equal(true);
     });
-  }); // with two sections, one of which already has a sitemap
+  }); // with multiple pages, some of which are already in a sitemap
   
   describe('with assets', function() {
     var page, err;
