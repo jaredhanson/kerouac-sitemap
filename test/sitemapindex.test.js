@@ -156,4 +156,43 @@ describe('sitemapindex', function() {
     });
   }); // without base url setting
   
+  describe('with two sitemaps in parent site, with mounted option', function() {
+    var page, err;
+
+    before(function(done) {
+      chai.kerouac.use(sitemap.index({ mounted: true }))
+        .page(function(page) {
+          page.site = new mock.Site();
+          page.site.parent = new mock.Site();
+          page.site.parent.pages = [
+            { url: '/hello', fullURL: 'http://www.example.com/hello' },
+            { url: '/sitemap1.xml', fullURL: 'http://www.example.com/sitemap1.xml', sitemap: true },
+            { url: '/sitemap2.xml', fullURL: 'http://www.example.com/sitemap2.xml', sitemap: true }
+          ];
+        })
+        .end(function(p) {
+          page = p;
+          done();
+        })
+        .dispatch();
+    });
+  
+    it('should write sitemap.xml', function() {
+      var expected = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+        '  <sitemap>',
+        '    <loc>http://www.example.com/sitemap1.xml</loc>',
+        '  </sitemap>',
+        '  <sitemap>',
+        '    <loc>http://www.example.com/sitemap2.xml</loc>',
+        '  </sitemap>',
+        '</sitemapindex>',
+        ''
+      ].join("\n");
+      
+      expect(page.body).to.equal(expected);
+    });
+  }); // with two sitemaps in parent site, with mounted option
+  
 });

@@ -407,4 +407,42 @@ describe('urlset', function() {
     });
   }); // without base url setting
   
+  describe('with two pages in parent site, with mounted option', function() {
+    var page, err;
+
+    before(function(done) {
+      chai.kerouac.use(sitemap({ mounted: true }))
+        .page(function(page) {
+          page.site = new mock.Site();
+          page.site.parent = new mock.Site();
+          page.site.parent.pages = [
+            { url: '/', fullURL: 'http://www.example.com/' },
+            { url: '/contact/', fullURL: 'http://www.example.com/contact/' }
+          ];
+        })
+        .end(function(p) {
+          page = p;
+          done();
+        })
+        .dispatch();
+    });
+  
+    it('should write sitemap.xml', function() {
+      var expected = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+        '  <url>',
+        '    <loc>http://www.example.com/</loc>',
+        '  </url>',
+        '  <url>',
+        '    <loc>http://www.example.com/contact/</loc>',
+        '  </url>',
+        '</urlset>',
+        ''
+      ].join("\n");
+      
+      expect(page.body).to.equal(expected);
+    });
+  }); // with two pages in parent site, with mounted option
+  
 });
