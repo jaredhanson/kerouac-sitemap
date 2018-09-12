@@ -11,6 +11,13 @@ Status:
 [![Coverage](https://img.shields.io/coveralls/jaredhanson/kerouac-sitemap.svg)](https://coveralls.io/r/jaredhanson/kerouac-sitemap)
 [![Dependencies](https://img.shields.io/david/jaredhanson/kerouac-sitemap.svg)](https://david-dm.org/jaredhanson/kerouac-sitemap)
 
+## Sponsorship
+
+Kerouac is open source software.  Ongoing development is made possible by
+generous contributions from individuals and corporations.  To learn more about
+how you can help keep this project financially sustainable, please visit Jared
+Hanson's page on [Patreon](https://www.patreon.com/jaredhanson).
+
 ## Install
 
     $ npm install kerouac-sitemap
