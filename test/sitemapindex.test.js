@@ -17,8 +17,8 @@ describe('sitemapindex', function() {
         .page(function(page) {
           page.absoluteURL = '/sitemap_index.xml';
           
-          page.site = new mock.Site();
-          page.site.pages = [
+          page.app = new mock.Site();
+          page.app.pages = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
             { url: '/sitemap.xml', fullURL: 'http://www.example.com/sitemap.xml', sitemap: true }
           ];
@@ -53,8 +53,8 @@ describe('sitemapindex', function() {
     });
     
     it('should add sitemaps to sitemap index', function() {
-      expect(page.site.pages[0]._inSitemap).to.equal(undefined);
-      expect(page.site.pages[1]._inSitemap).to.equal('/sitemap_index.xml');
+      expect(page.app.pages[0]._inSitemap).to.equal(undefined);
+      expect(page.app.pages[1]._inSitemap).to.equal('/sitemap_index.xml');
     });
   }); // with one sitemap
   
@@ -64,8 +64,8 @@ describe('sitemapindex', function() {
     before(function(done) {
       chai.kerouac.use(sitemap.index())
         .page(function(page) {
-          page.site = new mock.Site();
-          page.site.pages = [
+          page.app = new mock.Site();
+          page.app.pages = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
             { url: '/sitemap1.xml', fullURL: 'http://www.example.com/sitemap1.xml', sitemap: true },
             { url: '/sitemap2.xml', fullURL: 'http://www.example.com/sitemap2.xml', sitemap: true }
@@ -102,8 +102,8 @@ describe('sitemapindex', function() {
     before(function(done) {
       chai.kerouac.use(sitemap.index())
         .page(function(page) {
-          page.site = new mock.Site();
-          page.site.pages = [
+          page.app = new mock.Site();
+          page.app.pages = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
             { url: '/sitemap1.xml', fullURL: 'http://www.example.com/sitemap1.xml', sitemap: true },
             { url: '/foo/sitemap2.xml', fullURL: 'http://www.example.com/sitemap2.xml', sitemap: true, _inSitemap: '/foo/sitemapindex.xml' }
@@ -137,8 +137,8 @@ describe('sitemapindex', function() {
     before(function(done) {
       chai.kerouac.use(sitemap.index())
         .page(function(page) {
-          page.site = new mock.Site();
-          page.site.pages = [
+          page.app = new mock.Site();
+          page.app.pages = [
             { url: '/hello' },
             { url: '/sitemap.xml', absoluteURL: '/sitemap.xml', sitemap: true }
           ];
@@ -162,9 +162,9 @@ describe('sitemapindex', function() {
     before(function(done) {
       chai.kerouac.use(sitemap.index({ mounted: true }))
         .page(function(page) {
-          page.site = new mock.Site();
-          page.site.parent = new mock.Site();
-          page.site.parent.pages = [
+          page.app = new mock.Site();
+          page.app.parent = new mock.Site();
+          page.app.parent.pages = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
             { url: '/sitemap1.xml', fullURL: 'http://www.example.com/sitemap1.xml', sitemap: true },
             { url: '/sitemap2.xml', fullURL: 'http://www.example.com/sitemap2.xml', sitemap: true }

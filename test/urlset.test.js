@@ -17,8 +17,8 @@ describe('urlset', function() {
         .page(function(page) {
           page.absoluteURL = '/sitemap.xml'
           
-          page.site = new mock.Site();
-          page.site.pages = [
+          page.app = new mock.Site();
+          page.app.pages = [
             { url: '/', fullURL: 'http://www.example.com/' }
           ];
         })
@@ -48,7 +48,7 @@ describe('urlset', function() {
     });
     
     it('should add pages to sitemap', function() {
-      expect(page.site.pages[0]._inSitemap).to.equal('/sitemap.xml');
+      expect(page.app.pages[0]._inSitemap).to.equal('/sitemap.xml');
     });
   }); // with one page
   
@@ -58,8 +58,8 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.site = new mock.Site();
-          page.site.pages = [
+          page.app = new mock.Site();
+          page.app.pages = [
             { url: '/',
               fullURL: 'http://www.example.com/',
               modifiedAt: new Date(Date.UTC(2017, 8, 3, 17, 30, 15)) }
@@ -98,8 +98,8 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.site = new mock.Site();
-          page.site.pages = [
+          page.app = new mock.Site();
+          page.app.pages = [
             { url: '/', fullURL: 'http://www.example.com/' },
             { url: '/contact/', fullURL: 'http://www.example.com/contact/' }
           ];
@@ -135,8 +135,8 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.site = new mock.Site();
-          page.site.pages = [
+          page.app = new mock.Site();
+          page.app.pages = [
             { url: '/blog', fullURL: 'http://www.example.com/blog' },
             { url: '/blog/hello', fullURL: 'http://www.example.com/blog/hello' },
             { url: '/blog/hello-again', fullURL: 'http://www.example.com/blog/hello-again' },
@@ -182,8 +182,8 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.site = new mock.Site();
-          page.site.pages = [
+          page.app = new mock.Site();
+          page.app.pages = [
             { url: '/hello.html', fullURL: 'http://www.example.com/hello.html' },
             { url: '/assets/script.js', fullURL: 'http://www.example.com/assets/script.js' },
             { url: '/assets/stylesheet.css', fullURL: 'http://www.example.com/assets/stylesheet.css' }
@@ -217,8 +217,8 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.site = new mock.Site();
-          page.site.pages = [
+          page.app = new mock.Site();
+          page.app.pages = [
             { url: '/robots.txt', fullURL: 'http://www.example.com/robots.txt' },
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
           ];
@@ -251,8 +251,8 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.site = new mock.Site();
-          page.site.pages = [
+          page.app = new mock.Site();
+          page.app.pages = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
             { url: '/stores/store1_sitemap.xml', fullURL: 'http://www.example.com/stores/store1_sitemap.xml', sitemap: true },
             { url: '/stores/store2_sitemap.xml', fullURL: 'http://www.example.com/stores/store2_sitemap.xml', sitemap: true },
@@ -287,8 +287,8 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.site = new mock.Site();
-          page.site.pages = [
+          page.app = new mock.Site();
+          page.app.pages = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
             { url: '/sitemap_index.xml', fullURL: 'http://www.example.com/sitemap_index.xml', sitemapIndex: true }
           ];
@@ -321,8 +321,8 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.site = new mock.Site();
-          page.site.pages = [
+          page.app = new mock.Site();
+          page.app.pages = [
             { url: '/.htaccess', fullURL: 'http://www.example.com/.htaccess' },
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
           ];
@@ -355,8 +355,8 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.site = new mock.Site();
-          page.site.pages = [
+          page.app = new mock.Site();
+          page.app.pages = [
             { url: '/CNAME', fullURL: 'http://www.example.com/CNAME' },
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
           ];
@@ -389,8 +389,8 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .page(function(page) {
-          page.site = new mock.Site();
-          page.site.pages = [
+          page.app = new mock.Site();
+          page.app.pages = [
             { url: '/hello', absoluteURL: '/hello' },
           ];
         })
@@ -413,9 +413,9 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap({ mounted: true }))
         .page(function(page) {
-          page.site = new mock.Site();
-          page.site.parent = new mock.Site();
-          page.site.parent.pages = [
+          page.app = new mock.Site();
+          page.app.parent = new mock.Site();
+          page.app.parent.pages = [
             { url: '/', fullURL: 'http://www.example.com/' },
             { url: '/contact/', fullURL: 'http://www.example.com/contact/' }
           ];
