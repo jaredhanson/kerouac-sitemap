@@ -14,20 +14,20 @@ describe('sitemapindex', function() {
 
     before(function(done) {
       chai.kerouac.use(sitemap.index())
-        .page(function(page) {
+        .request(function(page) {
           page.absoluteURL = '/sitemap_index.xml';
           
-          page.app = new mock.Site();
+          page.app = {};
           page.app.pages = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
             { url: '/sitemap.xml', fullURL: 'http://www.example.com/sitemap.xml', sitemap: true }
           ];
         })
-        .end(function(p) {
-          page = p;
+        .finish(function() {
+          page = this;
           done();
         })
-        .dispatch();
+        .generate();
     });
   
     it('should write sitemap.xml', function() {
@@ -63,19 +63,19 @@ describe('sitemapindex', function() {
 
     before(function(done) {
       chai.kerouac.use(sitemap.index())
-        .page(function(page) {
-          page.app = new mock.Site();
+        .request(function(page) {
+          page.app = {};
           page.app.pages = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
             { url: '/sitemap1.xml', fullURL: 'http://www.example.com/sitemap1.xml', sitemap: true },
             { url: '/sitemap2.xml', fullURL: 'http://www.example.com/sitemap2.xml', sitemap: true }
           ];
         })
-        .end(function(p) {
-          page = p;
+        .finish(function() {
+          page = this;
           done();
         })
-        .dispatch();
+        .generate();
     });
   
     it('should write sitemap.xml', function() {
@@ -101,19 +101,19 @@ describe('sitemapindex', function() {
 
     before(function(done) {
       chai.kerouac.use(sitemap.index())
-        .page(function(page) {
-          page.app = new mock.Site();
+        .request(function(page) {
+          page.app = {};
           page.app.pages = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
             { url: '/sitemap1.xml', fullURL: 'http://www.example.com/sitemap1.xml', sitemap: true },
             { url: '/foo/sitemap2.xml', fullURL: 'http://www.example.com/sitemap2.xml', sitemap: true, _inSitemap: '/foo/sitemapindex.xml' }
           ];
         })
-        .end(function(p) {
-          page = p;
+        .finish(function() {
+          page = this;
           done();
         })
-        .dispatch();
+        .generate();
     });
   
     it('should write sitemap.xml', function() {
@@ -136,8 +136,8 @@ describe('sitemapindex', function() {
 
     before(function(done) {
       chai.kerouac.use(sitemap.index())
-        .page(function(page) {
-          page.app = new mock.Site();
+        .request(function(page) {
+          page.app = {};
           page.app.pages = [
             { url: '/hello' },
             { url: '/sitemap.xml', absoluteURL: '/sitemap.xml', sitemap: true }
@@ -147,7 +147,7 @@ describe('sitemapindex', function() {
           err = e;
           done();
         })
-        .dispatch();
+        .generate();
     });
   
     it('should error', function() {
@@ -161,20 +161,20 @@ describe('sitemapindex', function() {
 
     before(function(done) {
       chai.kerouac.use(sitemap.index({ mounted: true }))
-        .page(function(page) {
-          page.app = new mock.Site();
-          page.app.parent = new mock.Site();
+        .request(function(page) {
+          page.app = {};
+          page.app.parent = {};
           page.app.parent.pages = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
             { url: '/sitemap1.xml', fullURL: 'http://www.example.com/sitemap1.xml', sitemap: true },
             { url: '/sitemap2.xml', fullURL: 'http://www.example.com/sitemap2.xml', sitemap: true }
           ];
         })
-        .end(function(p) {
-          page = p;
+        .finish(function() {
+          page = this;
           done();
         })
-        .dispatch();
+        .generate();
     });
   
     it('should write sitemap.xml', function() {
