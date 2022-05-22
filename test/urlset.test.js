@@ -9,88 +9,62 @@ describe('urlset', function() {
     expect(sitemap).to.be.a('function');
   });
   
-  describe('with one page', function() {
-    var page, err;
-
-    before(function(done) {
-      chai.kerouac.use(sitemap())
-        .request(function(page) {
-          page.absoluteURL = '/sitemap.xml'
-          
-          page.locals = {};
-          page.locals.pages = [
-            { url: '/', fullURL: 'http://www.example.com/' }
-          ];
-        })
-        .finish(function() {
-          page = this;
-          done();
-        })
-        .generate();
-    });
-  
-    it('should write sitemap.xml', function() {
-      var expected = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-        '  <url>',
-        '    <loc>http://www.example.com/</loc>',
-        '  </url>',
-        '</urlset>',
-        ''
-      ].join("\n");
-      
-      expect(page.body).to.equal(expected);
-    });
+  it('should include location of URL', function(done) {
+    chai.kerouac.use(sitemap())
+      .request(function(page) {
+        page.absoluteURL = '/sitemap.xml'
+        page.locals = {};
+        page.locals.pages = [
+          { url: '/', fullURL: 'http://www.example.com/' }
+        ];
+      })
+      .finish(function() {
+        var expected = [
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+          '  <url>',
+          '    <loc>http://www.example.com/</loc>',
+          '  </url>',
+          '</urlset>',
+          ''
+        ].join("\n");
     
-    it('should set sitemap property', function() {
-      expect(page.sitemap).to.equal(true);
-    });
-    
-    it('should add pages to sitemap', function() {
-      expect(page.locals.pages[0]._inSitemap).to.equal('/sitemap.xml');
-    });
-  }); // with one page
+        expect(this.body).to.equal(expected);
+        expect(this.sitemap).to.equal(true);
+        expect(this.locals.pages[0]._inSitemap).to.equal('/sitemap.xml');
+        done();
+      })
+      .generate();
+  }); // should include location of URL
   
-  describe('with one page, including lastmod', function() {
-    var page, err;
-
-    before(function(done) {
-      chai.kerouac.use(sitemap())
-        .request(function(page) {
-          page.locals = {};
-          page.locals.pages = [
-            { url: '/',
-              fullURL: 'http://www.example.com/',
-              modifiedAt: new Date(Date.UTC(2017, 8, 3, 17, 30, 15)) }
-          ];
-        })
-        .finish(function() {
-          page = this;
-          done();
-        })
-        .generate();
-    });
-  
-    it('should write sitemap.xml', function() {
-      var expected = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-        '  <url>',
-        '    <loc>http://www.example.com/</loc>',
-        '    <lastmod>2017-09-03T17:30:15+00:00</lastmod>',
-        '  </url>',
-        '</urlset>',
-        ''
-      ].join("\n");
-      
-      expect(page.body).to.equal(expected);
-    });
+  it('should include date of last modification of URL', function(done) {
+    chai.kerouac.use(sitemap())
+      .request(function(page) {
+        page.locals = {};
+        page.locals.pages = [
+          { url: '/',
+            fullURL: 'http://www.example.com/',
+            modifiedAt: new Date(Date.UTC(2017, 8, 3, 17, 30, 15)) }
+        ];
+      })
+      .finish(function() {
+        var expected = [
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+          '  <url>',
+          '    <loc>http://www.example.com/</loc>',
+          '    <lastmod>2017-09-03T17:30:15+00:00</lastmod>',
+          '  </url>',
+          '</urlset>',
+          ''
+        ].join("\n");
     
-    it('should set sitemap property', function() {
-      expect(page.sitemap).to.equal(true);
-    });
-  }); // with one page, including lastmod
+        expect(this.body).to.equal(expected);
+        expect(this.sitemap).to.equal(true);
+        done();
+      })
+      .generate();
+  }); // should include date of last modification of URL
   
   describe('with two pages', function() {
     var page, err;
