@@ -66,42 +66,34 @@ describe('urlset', function() {
       .generate();
   }); // should include date of last modification of URL
   
-  describe('with two pages', function() {
-    var page, err;
-
-    before(function(done) {
-      chai.kerouac.use(sitemap())
-        .request(function(page) {
-          page.locals = {};
-          page.locals.pages = [
-            { url: '/', fullURL: 'http://www.example.com/' },
-            { url: '/contact/', fullURL: 'http://www.example.com/contact/' }
-          ];
-        })
-        .finish(function() {
-          page = this;
-          done();
-        })
-        .generate();
-    });
-  
-    it('should write sitemap.xml', function() {
-      var expected = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-        '  <url>',
-        '    <loc>http://www.example.com/</loc>',
-        '  </url>',
-        '  <url>',
-        '    <loc>http://www.example.com/contact/</loc>',
-        '  </url>',
-        '</urlset>',
-        ''
-      ].join("\n");
-      
-      expect(page.body).to.equal(expected);
-    });
-  }); // with two pages
+  it('should include location of multiple URLs', function(done) {
+    chai.kerouac.use(sitemap())
+      .request(function(page) {
+        page.locals = {};
+        page.locals.pages = [
+          { url: '/', fullURL: 'http://www.example.com/' },
+          { url: '/contact/', fullURL: 'http://www.example.com/contact/' }
+        ];
+      })
+      .finish(function() {
+        var expected = [
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+          '  <url>',
+          '    <loc>http://www.example.com/</loc>',
+          '  </url>',
+          '  <url>',
+          '    <loc>http://www.example.com/contact/</loc>',
+          '  </url>',
+          '</urlset>',
+          ''
+        ].join("\n");
+    
+        expect(this.body).to.equal(expected);
+        done();
+      })
+      .generate();
+  }); // should include location of multiple URLs
   
   describe('with multiple pages, some of which are already in a sitemap', function() {
     var page, err;
