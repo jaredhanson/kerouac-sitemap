@@ -1,6 +1,6 @@
 var chai = require('chai');
 var mock = require('chai-kerouac-middleware');
-var sitemap = require('../lib');
+var sitemap = require('../../lib');
 
 
 describe('urlset', function() {
