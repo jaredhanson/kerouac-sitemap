@@ -22,7 +22,7 @@ site.page('/sitemap.xml', sitemap());
 
 And map a `sitemap.xml` file when generating the site.
 
-```
+```js
 site.generate([
   sitemap.createMapper()
 ]);
@@ -33,7 +33,7 @@ site.generate([
 For a site that consists of multiple sections, each section can have its own
 sitemap with each sitemap listed in a sitemap index.
 
-```
+```js
 var sitemap = require('kerouac-sitemap');
 
 var site = kerouac();
