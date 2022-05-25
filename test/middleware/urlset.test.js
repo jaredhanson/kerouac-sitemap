@@ -12,7 +12,7 @@ describe('urlset', function() {
   it('should include location of URL', function(done) {
     chai.kerouac.use(sitemap())
       .request(function(page) {
-        page.absoluteURL = '/sitemap.xml'
+        page.absoluteURL = '/sitemap.xml';
         page.locals = {};
         page.locals.pages = [
           { url: '/', fullURL: 'http://www.example.com/' }
@@ -40,6 +40,7 @@ describe('urlset', function() {
   it('should include date of last modification of URL', function(done) {
     chai.kerouac.use(sitemap())
       .request(function(page) {
+        page.absoluteURL = '/sitemap.xml';
         page.locals = {};
         page.locals.pages = [
           { url: '/',
@@ -69,6 +70,7 @@ describe('urlset', function() {
   it('should include location of multiple URLs', function(done) {
     chai.kerouac.use(sitemap())
       .request(function(page) {
+        page.absoluteURL = '/sitemap.xml';
         page.locals = {};
         page.locals.pages = [
           { url: '/', fullURL: 'http://www.example.com/' },
@@ -101,6 +103,7 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .request(function(page) {
+          page.absoluteURL = '/sitemap.xml';
           page.locals = {};
           page.locals.pages = [
             { url: '/blog', fullURL: 'http://www.example.com/blog' },
@@ -148,6 +151,7 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .request(function(page) {
+          page.absoluteURL = '/sitemap.xml';
           page.locals = {};
           page.locals.pages = [
             { url: '/hello.html', fullURL: 'http://www.example.com/hello.html' },
@@ -183,6 +187,7 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .request(function(page) {
+          page.absoluteURL = '/sitemap.xml';
           page.locals = {};
           page.locals.pages = [
             { url: '/robots.txt', fullURL: 'http://www.example.com/robots.txt' },
@@ -217,6 +222,7 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .request(function(page) {
+          page.absoluteURL = '/sitemap.xml';
           page.locals = {};
           page.locals.pages = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
@@ -253,6 +259,7 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .request(function(page) {
+          page.absoluteURL = '/sitemap.xml';
           page.locals = {};
           page.locals.pages = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
@@ -287,6 +294,7 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .request(function(page) {
+          page.absoluteURL = '/sitemap.xml';
           page.locals = {};
           page.locals.pages = [
             { url: '/.htaccess', fullURL: 'http://www.example.com/.htaccess' },
@@ -321,6 +329,7 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .request(function(page) {
+          page.absoluteURL = '/sitemap.xml';
           page.locals = {};
           page.locals.pages = [
             { url: '/CNAME', fullURL: 'http://www.example.com/CNAME' },
@@ -355,6 +364,7 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap())
         .request(function(page) {
+          page.absoluteURL = '/sitemap.xml';
           page.locals = {};
           page.locals.pages = [
             { url: '/hello', absoluteURL: '/hello' },
@@ -379,6 +389,7 @@ describe('urlset', function() {
     before(function(done) {
       chai.kerouac.use(sitemap({ mounted: true }))
         .request(function(page) {
+          page.absoluteURL = '/sitemap.xml';
           page.locals = {};
           page.locals.parent = {};
           page.locals.parent.pages = [
