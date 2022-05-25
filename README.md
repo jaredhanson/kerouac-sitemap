@@ -1,8 +1,8 @@
 # kerouac-sitemap
 
 [Kerouac](https://github.com/jaredhanson/kerouac) middleware that generates
-generates [sitemaps](https://www.sitemaps.org/), informing search engines about
-pages that are available for crawling.
+[sitemaps](https://www.sitemaps.org/), informing search engines about pages that
+are available for crawling.
 
 ## Install
 
