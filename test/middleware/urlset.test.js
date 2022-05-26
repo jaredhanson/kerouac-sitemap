@@ -71,7 +71,7 @@ describe('middleware/urlset', function() {
         page.locals = {};
         page.locals.pages = [
           { url: '/', fullURL: 'http://www.example.com/' },
-          { url: '/about/', fullURL: 'http://www.example.com/about/' }
+          { url: '/about/', fullURL: 'http://www.example.com/contact/' }
         ];
       })
       .finish(function() {
@@ -82,7 +82,7 @@ describe('middleware/urlset', function() {
           '    <loc>http://www.example.com/</loc>',
           '  </url>',
           '  <url>',
-          '    <loc>http://www.example.com/about/</loc>',
+          '    <loc>http://www.example.com/contact/</loc>',
           '  </url>',
           '</urlset>',
           ''
@@ -97,52 +97,43 @@ describe('middleware/urlset', function() {
       .generate();
   }); // should include location of multiple URLs
   
-  describe('with multiple pages, some of which are already in a sitemap', function() {
-    var page, err;
-
-    before(function(done) {
-      chai.kerouac.use(sitemap())
-        .request(function(page) {
-          page.absoluteURL = '/sitemap.xml';
-          page.locals = {};
-          page.locals.pages = [
-            { url: '/blog', fullURL: 'http://www.example.com/blog' },
-            { url: '/blog/hello', fullURL: 'http://www.example.com/blog/hello' },
-            { url: '/blog/hello-again', fullURL: 'http://www.example.com/blog/hello-again' },
-            { url: '/legal/terms', fullURL: 'http://www.example.com/legal/terms', isInSitemap: true },
-            { url: '/legal/privacy', fullURL: 'http://www.example.com/legal/privacy', isInSitemap: true }
-          ];
-        })
-        .finish(function() {
-          page = this;
-          done();
-        })
-        .generate();
-    });
-  
-    it('should write sitemap.xml', function() {
-      var expected = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-        '  <url>',
-        '    <loc>http://www.example.com/blog</loc>',
-        '  </url>',
-        '  <url>',
-        '    <loc>http://www.example.com/blog/hello</loc>',
-        '  </url>',
-        '  <url>',
-        '    <loc>http://www.example.com/blog/hello-again</loc>',
-        '  </url>',
-        '</urlset>',
-        ''
-      ].join("\n");
-      
-      expect(page.body).to.equal(expected);
-    });
+  it('with multiple pages, some of which are already in a sitemap', function(done) {
+    chai.kerouac.use(sitemap())
+      .request(function(page) {
+        page.absoluteURL = '/sitemap.xml';
+        page.locals = {};
+        page.locals.pages = [
+          { url: '/blog/', fullURL: 'http://www.example.com/blog/', isInSitemap: true },
+          { url: '/blog/hello/', fullURL: 'http://www.example.com/blog/hello/', isInSitemap: true },
+          { url: '/blog/hello-again/', fullURL: 'http://www.example.com/blog/hello-again/', isInSitemap: true },
+          { url: '/legal/terms/', fullURL: 'http://www.example.com/legal/terms/'  },
+          { url: '/legal/privacy/', fullURL: 'http://www.example.com/legal/privacy/' }
+        ];
+      })
+      .finish(function() {
+        var expected = [
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+          '  <url>',
+          '    <loc>http://www.example.com/legal/terms/</loc>',
+          '  </url>',
+          '  <url>',
+          '    <loc>http://www.example.com/legal/privacy/</loc>',
+          '  </url>',
+          '</urlset>',
+          ''
+        ].join("\n");
     
-    it('should set sitemap property', function() {
-      expect(page.isSitemap).to.equal(true);
-    });
+        expect(this.body).to.equal(expected);
+        expect(this.isSitemap).to.equal(true);
+        expect(this.locals.pages[0].isInSitemap).to.equal(true);
+        expect(this.locals.pages[1].isInSitemap).to.equal(true);
+        expect(this.locals.pages[2].isInSitemap).to.equal(true);
+        expect(this.locals.pages[3].isInSitemap).to.equal(true);
+        expect(this.locals.pages[4].isInSitemap).to.equal(true);
+        done();
+      })
+      .generate();
   }); // with multiple pages, some of which are already in a sitemap
   
   describe('with assets', function() {
