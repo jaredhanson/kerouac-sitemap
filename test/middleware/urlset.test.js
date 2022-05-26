@@ -97,6 +97,38 @@ describe('middleware/urlset', function() {
       .generate();
   }); // should include multiple URLs
   
+  it('should only include URLs which are HTML format', function(done) {
+    chai.kerouac.use(sitemap())
+      .request(function(page) {
+        page.absoluteURL = '/sitemap.xml';
+        page.locals = {};
+        page.locals.pages = [
+          { url: '/hello.html', fullURL: 'http://www.example.com/hello.html' },
+          { url: '/assets/script.js', fullURL: 'http://www.example.com/assets/script.js' },
+          { url: '/assets/stylesheet.css', fullURL: 'http://www.example.com/assets/stylesheet.css' }
+        ];
+      })
+      .finish(function() {
+        var expected = [
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+          '  <url>',
+          '    <loc>http://www.example.com/hello.html</loc>',
+          '  </url>',
+          '</urlset>',
+          ''
+        ].join("\n");
+    
+        expect(this.body).to.equal(expected);
+        expect(this.isSitemap).to.equal(true);
+        expect(this.locals.pages[0].isInSitemap).to.equal(true);
+        expect(this.locals.pages[1].isInSitemap).to.be.undefined;
+        expect(this.locals.pages[2].isInSitemap).to.be.undefined;
+        done();
+      })
+      .generate();
+  }); // should only include URLs which are HTML format
+  
   it('should not include URLs which are already in a sitemap', function(done) {
     chai.kerouac.use(sitemap())
       .request(function(page) {
@@ -136,76 +168,32 @@ describe('middleware/urlset', function() {
       .generate();
   }); // should not include URLs which are already in a sitemap
   
-  describe('with assets', function() {
-    var page, err;
-
-    before(function(done) {
-      chai.kerouac.use(sitemap())
-        .request(function(page) {
-          page.absoluteURL = '/sitemap.xml';
-          page.locals = {};
-          page.locals.pages = [
-            { url: '/hello.html', fullURL: 'http://www.example.com/hello.html' },
-            { url: '/assets/script.js', fullURL: 'http://www.example.com/assets/script.js' },
-            { url: '/assets/stylesheet.css', fullURL: 'http://www.example.com/assets/stylesheet.css' }
-          ];
-        })
-        .finish(function() {
-          page = this;
-          done();
-        })
-        .generate();
-    });
-  
-    it('should write sitemap.xml', function() {
-      var expected = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-        '  <url>',
-        '    <loc>http://www.example.com/hello.html</loc>',
-        '  </url>',
-        '</urlset>',
-        ''
-      ].join("\n");
-      
-      expect(page.body).to.equal(expected);
-    });
-  }); // with one page
-  
-  describe('with site containing robots.txt', function() {
-    var page, err;
-
-    before(function(done) {
-      chai.kerouac.use(sitemap())
-        .request(function(page) {
-          page.absoluteURL = '/sitemap.xml';
-          page.locals = {};
-          page.locals.pages = [
-            { url: '/robots.txt', fullURL: 'http://www.example.com/robots.txt' },
-            { url: '/hello', fullURL: 'http://www.example.com/hello' },
-          ];
-        })
-        .finish(function() {
-          page = this;
-          done();
-        })
-        .generate();
-    });
-  
-    it('should write sitemap.xml', function() {
-      var expected = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-        '  <url>',
-        '    <loc>http://www.example.com/hello</loc>',
-        '  </url>',
-        '</urlset>',
-        ''
-      ].join("\n");
-      
-      expect(page.body).to.equal(expected);
-    });
-  }); // with site containing robots.txt
+  it('should include URLs which are TXT format when option is set but exclude robots.txt', function(done) {
+    chai.kerouac.use(sitemap({ include: [ '.txt' ] }))
+      .request(function(page) {
+        page.absoluteURL = '/sitemap.xml';
+        page.locals = {};
+        page.locals.pages = [
+          { url: '/hello.txt', fullURL: 'http://www.example.com/hello.txt' },
+          { url: '/robots.txt', fullURL: 'http://www.example.com/robots.txt' }
+        ];
+      })
+      .finish(function() {
+        var expected = [
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+          '  <url>',
+          '    <loc>http://www.example.com/hello.txt</loc>',
+          '  </url>',
+          '</urlset>',
+          ''
+        ].join("\n");
+    
+        expect(this.body).to.equal(expected);
+        done();
+      })
+      .generate();
+  }); // should include URLs which are TXT format when option is set but exclude robots.txt
   
   describe('with site containing other sitemaps', function() {
     var page, err;
