@@ -3,11 +3,7 @@ var mock = require('chai-kerouac-middleware');
 var sitemap = require('../../lib');
 
 
-describe('urlset', function() {
-  
-  it('should export function', function() {
-    expect(sitemap).to.be.a('function');
-  });
+describe('middleware/urlset', function() {
   
   it('should include location of URL', function(done) {
     chai.kerouac.use(sitemap())
@@ -30,7 +26,7 @@ describe('urlset', function() {
         ].join("\n");
     
         expect(this.body).to.equal(expected);
-        expect(this.sitemap).to.equal(true);
+        expect(this.isSitemap).to.equal(true);
         expect(this.locals.pages[0]._inSitemap).to.equal('/sitemap.xml');
         done();
       })
@@ -61,7 +57,7 @@ describe('urlset', function() {
         ].join("\n");
     
         expect(this.body).to.equal(expected);
-        expect(this.sitemap).to.equal(true);
+        expect(this.isSitemap).to.equal(true);
         done();
       })
       .generate();
@@ -141,7 +137,7 @@ describe('urlset', function() {
     });
     
     it('should set sitemap property', function() {
-      expect(page.sitemap).to.equal(true);
+      expect(page.isSitemap).to.equal(true);
     });
   }); // with multiple pages, some of which are already in a sitemap
   

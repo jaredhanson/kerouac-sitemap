@@ -20,7 +20,7 @@ describe('sitemapindex', function() {
           page.locals = {};
           page.locals.sitemaps = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
-            { url: '/sitemap.xml', fullURL: 'http://www.example.com/sitemap.xml', sitemap: true }
+            { url: '/sitemap.xml', fullURL: 'http://www.example.com/sitemap.xml', isSitemap: true }
           ];
         })
         .finish(function() {
@@ -67,8 +67,8 @@ describe('sitemapindex', function() {
           page.locals = {};
           page.locals.sitemaps = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
-            { url: '/sitemap1.xml', fullURL: 'http://www.example.com/sitemap1.xml', sitemap: true },
-            { url: '/sitemap2.xml', fullURL: 'http://www.example.com/sitemap2.xml', sitemap: true }
+            { url: '/sitemap1.xml', fullURL: 'http://www.example.com/sitemap1.xml', isSitemap: true },
+            { url: '/sitemap2.xml', fullURL: 'http://www.example.com/sitemap2.xml', isSitemap: true }
           ];
         })
         .finish(function() {
@@ -105,8 +105,8 @@ describe('sitemapindex', function() {
           page.locals = {};
           page.locals.sitemaps = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
-            { url: '/sitemap1.xml', fullURL: 'http://www.example.com/sitemap1.xml', sitemap: true },
-            { url: '/foo/sitemap2.xml', fullURL: 'http://www.example.com/sitemap2.xml', sitemap: true, _inSitemap: '/foo/sitemapindex.xml' }
+            { url: '/sitemap1.xml', fullURL: 'http://www.example.com/sitemap1.xml', isSitemap: true },
+            { url: '/foo/sitemap2.xml', fullURL: 'http://www.example.com/sitemap2.xml', isSitemap: true, _inSitemap: '/foo/sitemapindex.xml' }
           ];
         })
         .finish(function() {
@@ -140,7 +140,7 @@ describe('sitemapindex', function() {
           page.locals = {};
           page.locals.sitemaps = [
             { url: '/hello' },
-            { url: '/sitemap.xml', absoluteURL: '/sitemap.xml', sitemap: true }
+            { url: '/sitemap.xml', absoluteURL: '/sitemap.xml', isSitemap: true }
           ];
         })
         .next(function(e) {
@@ -166,8 +166,8 @@ describe('sitemapindex', function() {
           page.locals.parent = {};
           page.locals.parent.sitemaps = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
-            { url: '/sitemap1.xml', fullURL: 'http://www.example.com/sitemap1.xml', sitemap: true },
-            { url: '/sitemap2.xml', fullURL: 'http://www.example.com/sitemap2.xml', sitemap: true }
+            { url: '/sitemap1.xml', fullURL: 'http://www.example.com/sitemap1.xml', isSitemap: true },
+            { url: '/sitemap2.xml', fullURL: 'http://www.example.com/sitemap2.xml', isSitemap: true }
           ];
         })
         .finish(function() {
