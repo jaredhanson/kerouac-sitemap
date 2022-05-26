@@ -53,8 +53,8 @@ describe('sitemapindex', function() {
     });
     
     it('should add sitemaps to sitemap index', function() {
-      expect(page.locals.sitemaps[0]._inSitemap).to.equal(undefined);
-      expect(page.locals.sitemaps[1]._inSitemap).to.equal('/sitemap_index.xml');
+      expect(page.locals.sitemaps[0].isInSitemap).to.equal(undefined);
+      expect(page.locals.sitemaps[1].isInSitemap).to.equal(true);
     });
   }); // with one sitemap
   
@@ -106,7 +106,7 @@ describe('sitemapindex', function() {
           page.locals.sitemaps = [
             { url: '/hello', fullURL: 'http://www.example.com/hello' },
             { url: '/sitemap1.xml', fullURL: 'http://www.example.com/sitemap1.xml', isSitemap: true },
-            { url: '/foo/sitemap2.xml', fullURL: 'http://www.example.com/sitemap2.xml', isSitemap: true, _inSitemap: '/foo/sitemapindex.xml' }
+            { url: '/foo/sitemap2.xml', fullURL: 'http://www.example.com/sitemap2.xml', isSitemap: true, isInSitemap: true }
           ];
         })
         .finish(function() {

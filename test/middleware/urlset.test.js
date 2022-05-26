@@ -27,7 +27,7 @@ describe('middleware/urlset', function() {
     
         expect(this.body).to.equal(expected);
         expect(this.isSitemap).to.equal(true);
-        expect(this.locals.pages[0]._inSitemap).to.equal('/sitemap.xml');
+        expect(this.locals.pages[0].isInSitemap).to.equal(true);
         done();
       })
       .generate();
@@ -58,6 +58,7 @@ describe('middleware/urlset', function() {
     
         expect(this.body).to.equal(expected);
         expect(this.isSitemap).to.equal(true);
+        expect(this.locals.pages[0].isInSitemap).to.equal(true);
         done();
       })
       .generate();
@@ -70,7 +71,7 @@ describe('middleware/urlset', function() {
         page.locals = {};
         page.locals.pages = [
           { url: '/', fullURL: 'http://www.example.com/' },
-          { url: '/contact/', fullURL: 'http://www.example.com/contact/' }
+          { url: '/about/', fullURL: 'http://www.example.com/about/' }
         ];
       })
       .finish(function() {
@@ -81,13 +82,16 @@ describe('middleware/urlset', function() {
           '    <loc>http://www.example.com/</loc>',
           '  </url>',
           '  <url>',
-          '    <loc>http://www.example.com/contact/</loc>',
+          '    <loc>http://www.example.com/about/</loc>',
           '  </url>',
           '</urlset>',
           ''
         ].join("\n");
     
         expect(this.body).to.equal(expected);
+        expect(this.isSitemap).to.equal(true);
+        expect(this.locals.pages[0].isInSitemap).to.equal(true);
+        expect(this.locals.pages[1].isInSitemap).to.equal(true);
         done();
       })
       .generate();
@@ -105,8 +109,8 @@ describe('middleware/urlset', function() {
             { url: '/blog', fullURL: 'http://www.example.com/blog' },
             { url: '/blog/hello', fullURL: 'http://www.example.com/blog/hello' },
             { url: '/blog/hello-again', fullURL: 'http://www.example.com/blog/hello-again' },
-            { url: '/legal/terms', fullURL: 'http://www.example.com/legal/terms', _inSitemap: '/legal/sitemap.xml' },
-            { url: '/legal/privacy', fullURL: 'http://www.example.com/legal/privacy', _inSitemap: '/legal/sitemap.xml' }
+            { url: '/legal/terms', fullURL: 'http://www.example.com/legal/terms', isInSitemap: true },
+            { url: '/legal/privacy', fullURL: 'http://www.example.com/legal/privacy', isInSitemap: true }
           ];
         })
         .finish(function() {
