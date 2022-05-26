@@ -64,7 +64,7 @@ describe('middleware/urlset', function() {
       .generate();
   }); // should include date of last modification of URL
   
-  it('should include location of multiple URLs', function(done) {
+  it('should include multiple URLs', function(done) {
     chai.kerouac.use(sitemap())
       .request(function(page) {
         page.absoluteURL = '/sitemap.xml';
@@ -95,9 +95,9 @@ describe('middleware/urlset', function() {
         done();
       })
       .generate();
-  }); // should include location of multiple URLs
+  }); // should include multiple URLs
   
-  it('with multiple pages, some of which are already in a sitemap', function(done) {
+  it('should not include URLs which are already in a sitemap', function(done) {
     chai.kerouac.use(sitemap())
       .request(function(page) {
         page.absoluteURL = '/sitemap.xml';
@@ -134,7 +134,7 @@ describe('middleware/urlset', function() {
         done();
       })
       .generate();
-  }); // with multiple pages, some of which are already in a sitemap
+  }); // should not include URLs which are already in a sitemap
   
   describe('with assets', function() {
     var page, err;
