@@ -259,41 +259,6 @@ describe('middleware/urlset', function() {
       .generate();
   }); // should include URLs which are XML format when option is set but exclude sitemap indexes
   
-  describe('with site containing CNAME', function() {
-    var page, err;
-
-    before(function(done) {
-      chai.kerouac.use(sitemap())
-        .request(function(page) {
-          page.absoluteURL = '/sitemap.xml';
-          page.locals = {};
-          page.locals.pages = [
-            { path: '/CNAME', url: '/CNAME', fullURL: 'http://www.example.com/CNAME' },
-            { path: '/hello.html', url: '/hello', fullURL: 'http://www.example.com/hello' },
-          ];
-        })
-        .finish(function() {
-          page = this;
-          done();
-        })
-        .generate();
-    });
-  
-    it('should write sitemap.xml', function() {
-      var expected = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-        '  <url>',
-        '    <loc>http://www.example.com/hello</loc>',
-        '  </url>',
-        '</urlset>',
-        ''
-      ].join("\n");
-      
-      expect(page.body).to.equal(expected);
-    });
-  }); // with site containing CNAME
-  
   describe('without base url setting', function() {
     var page, err;
 
