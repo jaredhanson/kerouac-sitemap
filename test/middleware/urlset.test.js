@@ -106,7 +106,7 @@ describe('middleware/urlset', function() {
         page.locals.pages = [
           { path: '/hello.html', url: '/hello.html', fullURL: 'http://www.example.com/hello.html' },
           { path: '/assets/script.js', url: '/assets/script.js', fullURL: 'http://www.example.com/assets/script.js' },
-          { path: '/assets/stylesheet.html', url: '/assets/stylesheet.css', fullURL: 'http://www.example.com/assets/stylesheet.css' }
+          { path: '/assets/stylesheet.css', url: '/assets/stylesheet.css', fullURL: 'http://www.example.com/assets/stylesheet.css' }
         ];
       })
       .finish(function() {
