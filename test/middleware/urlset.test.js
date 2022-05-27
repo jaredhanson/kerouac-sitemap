@@ -11,7 +11,7 @@ describe('middleware/urlset', function() {
         page.absoluteURL = '/sitemap.xml';
         page.locals = {};
         page.locals.pages = [
-          { url: '/', fullURL: 'http://www.example.com/' }
+          { path: '/index.html', url: '/', fullURL: 'http://www.example.com/' }
         ];
       })
       .finish(function() {
@@ -39,7 +39,8 @@ describe('middleware/urlset', function() {
         page.absoluteURL = '/sitemap.xml';
         page.locals = {};
         page.locals.pages = [
-          { url: '/',
+          { path: '/index.html',
+            url: '/',
             fullURL: 'http://www.example.com/',
             modifiedAt: new Date(Date.UTC(2017, 8, 3, 17, 30, 15)) }
         ];
@@ -70,8 +71,8 @@ describe('middleware/urlset', function() {
         page.absoluteURL = '/sitemap.xml';
         page.locals = {};
         page.locals.pages = [
-          { url: '/', fullURL: 'http://www.example.com/' },
-          { url: '/about/', fullURL: 'http://www.example.com/contact/' }
+          { path: '/index.html', url: '/', fullURL: 'http://www.example.com/' },
+          { path: '/about.html', url: '/about/', fullURL: 'http://www.example.com/contact/' }
         ];
       })
       .finish(function() {
@@ -103,9 +104,9 @@ describe('middleware/urlset', function() {
         page.absoluteURL = '/sitemap.xml';
         page.locals = {};
         page.locals.pages = [
-          { url: '/hello.html', fullURL: 'http://www.example.com/hello.html' },
-          { url: '/assets/script.js', fullURL: 'http://www.example.com/assets/script.js' },
-          { url: '/assets/stylesheet.css', fullURL: 'http://www.example.com/assets/stylesheet.css' }
+          { path: '/hello.html', url: '/hello.html', fullURL: 'http://www.example.com/hello.html' },
+          { path: '/assets/script.js', url: '/assets/script.js', fullURL: 'http://www.example.com/assets/script.js' },
+          { path: '/assets/stylesheet.html', url: '/assets/stylesheet.css', fullURL: 'http://www.example.com/assets/stylesheet.css' }
         ];
       })
       .finish(function() {
@@ -135,11 +136,11 @@ describe('middleware/urlset', function() {
         page.absoluteURL = '/sitemap.xml';
         page.locals = {};
         page.locals.pages = [
-          { url: '/blog/', fullURL: 'http://www.example.com/blog/', isInSitemap: true },
-          { url: '/blog/hello/', fullURL: 'http://www.example.com/blog/hello/', isInSitemap: true },
-          { url: '/blog/hello-again/', fullURL: 'http://www.example.com/blog/hello-again/', isInSitemap: true },
-          { url: '/legal/terms/', fullURL: 'http://www.example.com/legal/terms/'  },
-          { url: '/legal/privacy/', fullURL: 'http://www.example.com/legal/privacy/' }
+          { path: '/blog/index.html', url: '/blog/', fullURL: 'http://www.example.com/blog/', isInSitemap: true },
+          { path: '/blog/hello.html', url: '/blog/hello/', fullURL: 'http://www.example.com/blog/hello/', isInSitemap: true },
+          { path: '/blog/hello-again.html', url: '/blog/hello-again/', fullURL: 'http://www.example.com/blog/hello-again/', isInSitemap: true },
+          { path: '/legal/terms.html', url: '/legal/terms/', fullURL: 'http://www.example.com/legal/terms/'  },
+          { path: '/legal/privacy.html', url: '/legal/privacy/', fullURL: 'http://www.example.com/legal/privacy/' }
         ];
       })
       .finish(function() {
@@ -174,8 +175,8 @@ describe('middleware/urlset', function() {
         page.absoluteURL = '/sitemap.xml';
         page.locals = {};
         page.locals.pages = [
-          { url: '/hello.txt', fullURL: 'http://www.example.com/hello.txt' },
-          { url: '/robots.txt', fullURL: 'http://www.example.com/robots.txt' }
+          { path: '/hello.txt', url: '/hello.txt', fullURL: 'http://www.example.com/hello.txt' },
+          { path: '/robots.txt', url: '/robots.txt', fullURL: 'http://www.example.com/robots.txt' }
         ];
       })
       .finish(function() {
@@ -204,8 +205,8 @@ describe('middleware/urlset', function() {
         page.absoluteURL = '/sitemap.xml';
         page.locals = {};
         page.locals.pages = [
-          { url: '/hello.xml', fullURL: 'http://www.example.com/hello.xml' },
-          { url: '/blog/sitemap.xml', fullURL: 'http://www.example.com/stores/store1_sitemap.xml', isSitemap: true }
+          { path: '/hello.xml', url: '/hello.xml', fullURL: 'http://www.example.com/hello.xml' },
+          { path: '/blog/sitemap.xml', url: '/blog/sitemap.xml', fullURL: 'http://www.example.com/blog/sitemap.xml', isSitemap: true }
         ];
       })
       .finish(function() {
@@ -234,8 +235,8 @@ describe('middleware/urlset', function() {
         page.absoluteURL = '/sitemap.xml';
         page.locals = {};
         page.locals.pages = [
-          { url: '/hello.xml', fullURL: 'http://www.example.com/hello.xml' },
-          { url: '/sitemap_index.xml', fullURL: 'http://www.example.com/sitemap_index.xml', isSitemap: true }
+          { path: '/hello.xml', url: '/hello.xml', fullURL: 'http://www.example.com/hello.xml' },
+          { path: '/sitemap_index.xml', url: '/sitemap_index.xml', fullURL: 'http://www.example.com/sitemap_index.xml', isSitemap: true }
         ];
       })
       .finish(function() {
@@ -267,8 +268,8 @@ describe('middleware/urlset', function() {
           page.absoluteURL = '/sitemap.xml';
           page.locals = {};
           page.locals.pages = [
-            { url: '/.htaccess', fullURL: 'http://www.example.com/.htaccess' },
-            { url: '/hello', fullURL: 'http://www.example.com/hello' },
+            { path: '/.htaccess', url: '/.htaccess', fullURL: 'http://www.example.com/.htaccess' },
+            { path: '/hello.html', url: '/hello', fullURL: 'http://www.example.com/hello' },
           ];
         })
         .finish(function() {
@@ -302,8 +303,8 @@ describe('middleware/urlset', function() {
           page.absoluteURL = '/sitemap.xml';
           page.locals = {};
           page.locals.pages = [
-            { url: '/CNAME', fullURL: 'http://www.example.com/CNAME' },
-            { url: '/hello', fullURL: 'http://www.example.com/hello' },
+            { path: '/CNAME', url: '/CNAME', fullURL: 'http://www.example.com/CNAME' },
+            { path: '/hello.html', url: '/hello', fullURL: 'http://www.example.com/hello' },
           ];
         })
         .finish(function() {
@@ -337,7 +338,7 @@ describe('middleware/urlset', function() {
           page.absoluteURL = '/sitemap.xml';
           page.locals = {};
           page.locals.pages = [
-            { url: '/hello', absoluteURL: '/hello' },
+            { path: '/hello.html', url: '/hello', absoluteURL: '/hello' },
           ];
         })
         .next(function(e) {
