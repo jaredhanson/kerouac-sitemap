@@ -97,6 +97,25 @@ describe('middleware/urlset', function() {
       .generate();
   }); // should include multiple URLs
   
+  it('should include no URLs when locals are not available', function(done) {
+    chai.kerouac.use(sitemap())
+      .request(function(page) {
+        page.absoluteURL = '/sitemap.xml';
+      })
+      .finish(function() {
+        var expected = [
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"/>',
+          ''
+        ].join("\n");
+    
+        expect(this.body).to.equal(expected);
+        expect(this.isSitemap).to.equal(true);
+        done();
+      })
+      .generate();
+  }); // should include no URLs when locals are not available
+  
   it('should only include URLs which are HTML format', function(done) {
     chai.kerouac.use(sitemap())
       .request(function(page) {
