@@ -353,43 +353,4 @@ describe('middleware/urlset', function() {
     });
   }); // without base url setting
   
-  describe.skip('with two pages in parent site, with mounted option', function() {
-    var page, err;
-
-    before(function(done) {
-      chai.kerouac.use(sitemap({ mounted: true }))
-        .request(function(page) {
-          page.absoluteURL = '/sitemap.xml';
-          page.locals = {};
-          page.locals.parent = {};
-          page.locals.parent.pages = [
-            { url: '/', fullURL: 'http://www.example.com/' },
-            { url: '/contact/', fullURL: 'http://www.example.com/contact/' }
-          ];
-        })
-        .finish(function() {
-          page = this;
-          done();
-        })
-        .generate();
-    });
-  
-    it('should write sitemap.xml', function() {
-      var expected = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-        '  <url>',
-        '    <loc>http://www.example.com/</loc>',
-        '  </url>',
-        '  <url>',
-        '    <loc>http://www.example.com/contact/</loc>',
-        '  </url>',
-        '</urlset>',
-        ''
-      ].join("\n");
-      
-      expect(page.body).to.equal(expected);
-    });
-  }); // with two pages in parent site, with mounted option
-  
 });
