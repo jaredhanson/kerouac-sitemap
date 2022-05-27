@@ -187,6 +187,49 @@ describe('middleware/urlset', function() {
       .generate();
   }); // should not include URLs which are already in a sitemap
   
+  it('should not include URLs which are part of a different app', function(done) {
+    chai.kerouac.use(sitemap())
+      .request(function(page) {
+        var site = new Object();
+        var blog = new Object();
+        
+        page.app = site;
+        page.absoluteURL = '/sitemap.xml';
+        page.locals = {};
+        page.locals.pages = [
+          { app: blog, path: '/blog/index.html', fullURL: 'http://www.example.com/blog/' },
+          { app: blog, path: '/blog/hello.html', fullURL: 'http://www.example.com/blog/hello/'},
+          { app: blog, path: '/blog/hello-again.html', fullURL: 'http://www.example.com/blog/hello-again/' },
+          { app: site, path: '/legal/terms.html', fullURL: 'http://www.example.com/legal/terms/'  },
+          { app: site, path: '/legal/privacy.html', fullURL: 'http://www.example.com/legal/privacy/' }
+        ];
+      })
+      .finish(function() {
+        var expected = [
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+          '  <url>',
+          '    <loc>http://www.example.com/legal/terms/</loc>',
+          '  </url>',
+          '  <url>',
+          '    <loc>http://www.example.com/legal/privacy/</loc>',
+          '  </url>',
+          '</urlset>',
+          ''
+        ].join("\n");
+    
+        expect(this.body).to.equal(expected);
+        expect(this.isSitemap).to.equal(true);
+        expect(this.locals.pages[0].isInSitemap).to.be.undefined;
+        expect(this.locals.pages[1].isInSitemap).to.be.undefined;
+        expect(this.locals.pages[2].isInSitemap).to.be.undefined;
+        expect(this.locals.pages[3].isInSitemap).to.equal(true);
+        expect(this.locals.pages[4].isInSitemap).to.equal(true);
+        done();
+      })
+      .generate();
+  }); // should not include URLs which are part of a different app
+  
   it('should include URLs which are TXT format when option is set but exclude robots.txt', function(done) {
     chai.kerouac.use(sitemap({ include: [ '.txt' ] }))
       .request(function(page) {
