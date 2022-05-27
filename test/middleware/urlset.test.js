@@ -198,7 +198,7 @@ describe('middleware/urlset', function() {
       .generate();
   }); // should include URLs which are TXT format when option is set but exclude robots.txt
   
-  it('should include URLs which are TXT format when option is set but exclude sitemaps', function(done) {
+  it('should include URLs which are XML format when option is set but exclude sitemaps', function(done) {
     chai.kerouac.use(sitemap({ include: [ '.xml' ] }))
       .request(function(page) {
         page.absoluteURL = '/sitemap.xml';
@@ -226,42 +226,37 @@ describe('middleware/urlset', function() {
         done();
       })
       .generate();
-  }); // should include URLs which are TXT format when option is set but exclude sitemaps
+  }); // should include URLs which are XML format when option is set but exclude sitemaps
   
-  describe('with site containing a sitemap index', function() {
-    var page, err;
-
-    before(function(done) {
-      chai.kerouac.use(sitemap())
-        .request(function(page) {
-          page.absoluteURL = '/sitemap.xml';
-          page.locals = {};
-          page.locals.pages = [
-            { url: '/hello', fullURL: 'http://www.example.com/hello' },
-            { url: '/sitemap_index.xml', fullURL: 'http://www.example.com/sitemap_index.xml', sitemapIndex: true }
-          ];
-        })
-        .finish(function() {
-          page = this;
-          done();
-        })
-        .generate();
-    });
-  
-    it('should write sitemap.xml', function() {
-      var expected = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-        '  <url>',
-        '    <loc>http://www.example.com/hello</loc>',
-        '  </url>',
-        '</urlset>',
-        ''
-      ].join("\n");
-      
-      expect(page.body).to.equal(expected);
-    });
-  }); // with site containing a sitemap index
+  it('should include URLs which are XML format when option is set but exclude sitemap indexes', function(done) {
+    chai.kerouac.use(sitemap({ include: [ '.xml' ] }))
+      .request(function(page) {
+        page.absoluteURL = '/sitemap.xml';
+        page.locals = {};
+        page.locals.pages = [
+          { url: '/hello.xml', fullURL: 'http://www.example.com/hello.xml' },
+          { url: '/sitemap_index.xml', fullURL: 'http://www.example.com/sitemap_index.xml', isSitemap: true }
+        ];
+      })
+      .finish(function() {
+        var expected = [
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+          '  <url>',
+          '    <loc>http://www.example.com/hello.xml</loc>',
+          '  </url>',
+          '</urlset>',
+          ''
+        ].join("\n");
+    
+        expect(this.body).to.equal(expected);
+        expect(this.isSitemap).to.equal(true);
+        expect(this.locals.pages[0].isInSitemap).to.equal(true);
+        expect(this.locals.pages[1].isInSitemap).to.be.undefined;
+        done();
+      })
+      .generate();
+  }); // should include URLs which are XML format when option is set but exclude sitemap indexes
   
   describe('with site containing .htaccess', function() {
     var page, err;

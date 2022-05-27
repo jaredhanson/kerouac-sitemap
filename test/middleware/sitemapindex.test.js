@@ -45,7 +45,7 @@ describe('sitemapindex', function() {
     });
     
     it('should set sitemapIndex property', function() {
-      expect(page.sitemapIndex).to.equal(true);
+      expect(page.isSitemap).to.equal(true);
     });
     
     it('should not set sitemap property', function() {
