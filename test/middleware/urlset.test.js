@@ -82,7 +82,7 @@ describe('middleware/urlset', function() {
           '    <loc>http://www.example.com/</loc>',
           '  </url>',
           '  <url>',
-          '    <loc>http://www.example.com/contact/</loc>',
+          '    <loc>http://www.example.com/about/</loc>',
           '  </url>',
           '</urlset>',
           ''
@@ -258,29 +258,21 @@ describe('middleware/urlset', function() {
       .generate();
   }); // should include URLs which are XML format when option is set but exclude sitemap indexes
   
-  describe('without base url setting', function() {
-    var page, err;
-
-    before(function(done) {
-      chai.kerouac.use(sitemap())
-        .request(function(page) {
-          page.absoluteURL = '/sitemap.xml';
-          page.locals = {};
-          page.locals.pages = [
-            { path: '/hello.html', absoluteURL: '/hello' },
-          ];
-        })
-        .next(function(e) {
-          err = e;
-          done();
-        })
-        .generate();
-    });
-  
-    it('should error', function() {
-      expect(err).to.be.an.instanceOf(Error);
-      expect(err.message).to.equal('Unable to add "/hello" to sitemap, set \'base url\' setting and try again');
-    });
-  }); // without base url setting
+  it('should error when fully-qualified URL is not known', function(done) {
+    chai.kerouac.use(sitemap())
+      .request(function(page) {
+        page.absoluteURL = '/sitemap.xml';
+        page.locals = {};
+        page.locals.pages = [
+          { path: '/hello.html', absoluteURL: '/hello' },
+        ];
+      })
+      .next(function(err) {
+        expect(err).to.be.an.instanceOf(Error);
+        expect(err.message).to.equal('Unable to add "/hello" to sitemap, set \'base url\' setting and try again');
+        done();
+      })
+      .generate();
+  }); // should error when fully-qualified URL is not known
   
 });
