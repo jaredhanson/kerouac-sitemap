@@ -231,7 +231,7 @@ describe('middleware/urlset', function() {
   }); // should not include URLs which are part of a different app
   
   it('should include URLs which are TXT format when option is set but exclude robots.txt', function(done) {
-    chai.kerouac.use(sitemap({ include: [ '.txt' ] }))
+    chai.kerouac.use(sitemap({ includeExtensions: [ '.txt' ] }))
       .request(function(page) {
         page.absoluteURL = '/sitemap.xml';
         page.locals = {};
@@ -261,7 +261,7 @@ describe('middleware/urlset', function() {
   }); // should include URLs which are TXT format when option is set but exclude robots.txt
   
   it('should include URLs which are XML format when option is set but exclude sitemaps', function(done) {
-    chai.kerouac.use(sitemap({ include: [ '.xml' ] }))
+    chai.kerouac.use(sitemap({ includeExtensions: [ '.xml' ] }))
       .request(function(page) {
         page.absoluteURL = '/sitemap.xml';
         page.locals = {};
@@ -291,7 +291,7 @@ describe('middleware/urlset', function() {
   }); // should include URLs which are XML format when option is set but exclude sitemaps
   
   it('should include URLs which are XML format when option is set but exclude sitemap indexes', function(done) {
-    chai.kerouac.use(sitemap({ include: [ '.xml' ] }))
+    chai.kerouac.use(sitemap({ includeExtensions: [ '.xml' ] }))
       .request(function(page) {
         page.absoluteURL = '/sitemap.xml';
         page.locals = {};
