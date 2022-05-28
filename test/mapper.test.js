@@ -10,11 +10,26 @@ describe('Mapper', function() {
         expect(this).to.request([ '/sitemap.xml' ]);
         expect(this.pages['/sitemap.xml'].locals).to.deep.equal({
           pages: []
-        })
+        });
         done();
       })
       .generate();
   }); // should request sitemap
+  
+  it('should request sitemap index', function(done) {
+    chai.kerouac.map(sitemap.createMapper({ index: true }))
+      .close(function() {
+        expect(this).to.request([ '/sitemap.xml', '/sitemap-index.xml' ]);
+        expect(this.pages['/sitemap.xml'].locals).to.deep.equal({
+          pages: []
+        });
+        expect(this.pages['/sitemap-index.xml'].locals).to.deep.equal({
+          sitemaps: []
+        });
+        done();
+      })
+      .generate();
+  }); // should request sitemap index
   
   it('should set pages for sitemap', function(done) {
     chai.kerouac.map(sitemap.createMapper(), [
@@ -28,7 +43,7 @@ describe('Mapper', function() {
             { path: '/index.html' },
             { path: '/about.html' }
           ]
-        })
+        });
         done();
       })
       .generate();
