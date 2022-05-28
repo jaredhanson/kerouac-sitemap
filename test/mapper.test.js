@@ -19,6 +19,21 @@ describe('Mapper', function() {
   it('should request sitemap index', function(done) {
     chai.kerouac.map(sitemap.createMapper({ index: true }))
       .close(function() {
+        expect(this).to.request([ '/sitemap.xml', '/sitemap_index.xml' ]);
+        expect(this.pages['/sitemap.xml'].locals).to.deep.equal({
+          pages: []
+        });
+        expect(this.pages['/sitemap_index.xml'].locals).to.deep.equal({
+          sitemaps: []
+        });
+        done();
+      })
+      .generate();
+  }); // should request sitemap index
+  
+  it('should request sitemap index with specific name', function(done) {
+    chai.kerouac.map(sitemap.createMapper({ index: 'sitemap-index.xml' }))
+      .close(function() {
         expect(this).to.request([ '/sitemap.xml', '/sitemap-index.xml' ]);
         expect(this.pages['/sitemap.xml'].locals).to.deep.equal({
           pages: []
@@ -29,7 +44,7 @@ describe('Mapper', function() {
         done();
       })
       .generate();
-  }); // should request sitemap index
+  }); // should request sitemap index with specific name
   
   it('should set pages for sitemap', function(done) {
     chai.kerouac.map(sitemap.createMapper(), [
