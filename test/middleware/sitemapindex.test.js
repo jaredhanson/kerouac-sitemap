@@ -91,29 +91,20 @@ describe('middleware/sitemapindex', function() {
       .generate();
   }); // should not include sitemaps which are already in a sitemap
   
-  describe('without base url setting', function() {
-    var page, err;
-
-    before(function(done) {
-      chai.kerouac.use(sitemap.index())
-        .request(function(page) {
-          page.locals = {};
-          page.locals.sitemaps = [
-            { url: '/hello' },
-            { url: '/sitemap.xml', absoluteURL: '/sitemap.xml', isSitemap: true }
-          ];
-        })
-        .next(function(e) {
-          err = e;
-          done();
-        })
-        .generate();
-    });
-  
-    it('should error', function() {
-      expect(err).to.be.an.instanceOf(Error);
-      expect(err.message).to.equal('Unable to add "/sitemap.xml" to sitemap, set \'base url\' setting and try again');
-    });
-  }); // without base url setting
+  it('should error when fully-qualified URL is not known', function(done) {
+    chai.kerouac.use(sitemap.index())
+      .request(function(page) {
+        page.locals = {};
+        page.locals.sitemaps = [
+          { absoluteURL: '/sitemap.xml', isSitemap: true }
+        ];
+      })
+      .next(function(err) {
+        expect(err).to.be.an.instanceOf(Error);
+        expect(err.message).to.equal('Unable to add "/sitemap.xml" to sitemap, set \'base url\' setting and try again');
+        done();
+      })
+      .generate();
+  }); // should error when fully-qualified URL is not known
   
 });
