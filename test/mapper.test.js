@@ -64,4 +64,22 @@ describe('Mapper', function() {
       .generate();
   }); // should set pages for sitemap
   
+  it('should set sitemaps for sitemap index', function(done) {
+    chai.kerouac.map(sitemap.createMapper({ index: true }), [
+      { fullURL: 'http://www.example.com/sitemap.xml', isSitemap: true },
+      { fullURL: 'http://www.example.com/blog/sitemap.xml', isSitemap: true }
+    ])
+      .close(function() {
+        expect(this).to.request([ '/sitemap.xml', '/sitemap_index.xml' ]);
+        expect(this.pages['/sitemap_index.xml'].locals).to.deep.equal({
+          sitemaps: [
+            { fullURL: 'http://www.example.com/sitemap.xml', isSitemap: true },
+            { fullURL: 'http://www.example.com/blog/sitemap.xml', isSitemap: true }
+          ]
+        });
+        done();
+      })
+      .generate();
+  }); // should set pages for sitemap
+  
 });
