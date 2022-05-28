@@ -65,40 +65,31 @@ describe('middleware/sitemapindex', function() {
       .generate();
   }); // should include multiple sitemaps
   
-  describe('with two sitemaps, one of which is already in a sitemap index', function() {
-    var page, err;
-
-    before(function(done) {
-      chai.kerouac.use(sitemap.index())
-        .request(function(page) {
-          page.locals = {};
-          page.locals.sitemaps = [
-            { url: '/hello', fullURL: 'http://www.example.com/hello' },
-            { url: '/sitemap1.xml', fullURL: 'http://www.example.com/sitemap1.xml', isSitemap: true },
-            { url: '/foo/sitemap2.xml', fullURL: 'http://www.example.com/sitemap2.xml', isSitemap: true, isInSitemap: true }
-          ];
-        })
-        .finish(function() {
-          page = this;
-          done();
-        })
-        .generate();
-    });
-  
-    it('should write sitemap.xml', function() {
-      var expected = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-        '  <sitemap>',
-        '    <loc>http://www.example.com/sitemap1.xml</loc>',
-        '  </sitemap>',
-        '</sitemapindex>',
-        ''
-      ].join("\n");
-      
-      expect(page.body).to.equal(expected);
-    });
-  }); // with two sitemaps, one of which is already in a sitemap index
+  it('should not include sitemaps which are already in a sitemap', function(done) {
+    chai.kerouac.use(sitemap.index())
+      .request(function(page) {
+        page.locals = {};
+        page.locals.sitemaps = [
+          { fullURL: 'http://www.example.com/sitemap.xml', isSitemap: true },
+          { fullURL: 'http://www.example.com/blog/sitemap.xml', isSitemap: true, isInSitemap: true }
+        ];
+      })
+      .finish(function() {
+        var expected = [
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+          '  <sitemap>',
+          '    <loc>http://www.example.com/sitemap.xml</loc>',
+          '  </sitemap>',
+          '</sitemapindex>',
+          ''
+        ].join("\n");
+    
+        expect(this.body).to.equal(expected);
+        done();
+      })
+      .generate();
+  }); // should not include sitemaps which are already in a sitemap
   
   describe('without base url setting', function() {
     var page, err;
