@@ -36,6 +36,7 @@ describe('middleware/sitemapindex', function() {
   it('should include multiple sitemaps', function(done) {
     chai.kerouac.use(sitemap.index())
       .request(function(page) {
+        page.absoluteURL = '/sitemap_index.xml';
         page.locals = {};
         page.locals.sitemaps = [
           { fullURL: 'http://www.example.com/sitemap.xml', isSitemap: true },
@@ -65,9 +66,29 @@ describe('middleware/sitemapindex', function() {
       .generate();
   }); // should include multiple sitemaps
   
+  it('should include no sitemaps when locals are not available', function(done) {
+    chai.kerouac.use(sitemap.index())
+      .request(function(page) {
+        page.absoluteURL = '/sitemap_index.xml';
+      })
+      .finish(function() {
+        var expected = [
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"/>',
+          ''
+        ].join("\n");
+    
+        expect(this.body).to.equal(expected);
+        expect(this.isSitemap).to.equal(true);
+        done();
+      })
+      .generate();
+  }); // should include no sitemaps when locals are not available
+  
   it('should not include sitemaps which are already in a sitemap', function(done) {
     chai.kerouac.use(sitemap.index())
       .request(function(page) {
+        page.absoluteURL = '/sitemap_index.xml';
         page.locals = {};
         page.locals.sitemaps = [
           { fullURL: 'http://www.example.com/sitemap.xml', isSitemap: true },
@@ -94,6 +115,7 @@ describe('middleware/sitemapindex', function() {
   it('should error when fully-qualified URL is not known', function(done) {
     chai.kerouac.use(sitemap.index())
       .request(function(page) {
+        page.absoluteURL = '/sitemap_index.xml';
         page.locals = {};
         page.locals.sitemaps = [
           { absoluteURL: '/sitemap.xml', isSitemap: true }
