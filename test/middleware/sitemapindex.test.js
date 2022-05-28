@@ -3,60 +3,35 @@ var mock = require('chai-kerouac-middleware');
 var sitemap = require('../../lib');
 
 
-describe('sitemapindex', function() {
+describe('middleware/sitemapindex', function() {
   
-  it('should export function', function() {
-    expect(sitemap.index).to.be.a('function');
-  });
-  
-  describe('with one sitemap', function() {
-    var page, err;
-
-    before(function(done) {
-      chai.kerouac.use(sitemap.index())
-        .request(function(page) {
-          page.absoluteURL = '/sitemap_index.xml';
-          
-          page.locals = {};
-          page.locals.sitemaps = [
-            { url: '/hello', fullURL: 'http://www.example.com/hello' },
-            { url: '/sitemap.xml', fullURL: 'http://www.example.com/sitemap.xml', isSitemap: true }
-          ];
-        })
-        .finish(function() {
-          page = this;
-          done();
-        })
-        .generate();
-    });
-  
-    it('should write sitemap.xml', function() {
-      var expected = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-        '  <sitemap>',
-        '    <loc>http://www.example.com/sitemap.xml</loc>',
-        '  </sitemap>',
-        '</sitemapindex>',
-        ''
-      ].join("\n");
-      
-      expect(page.body).to.equal(expected);
-    });
+  it('should include sitemap', function(done) {
+    chai.kerouac.use(sitemap.index())
+      .request(function(page) {
+        page.absoluteURL = '/sitemap_index.xml';
+        page.locals = {};
+        page.locals.sitemaps = [
+          { fullURL: 'http://www.example.com/sitemap.xml', isSitemap: true }
+        ];
+      })
+      .finish(function() {
+        var expected = [
+          '<?xml version="1.0" encoding="UTF-8"?>',
+          '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+          '  <sitemap>',
+          '    <loc>http://www.example.com/sitemap.xml</loc>',
+          '  </sitemap>',
+          '</sitemapindex>',
+          ''
+        ].join("\n");
     
-    it('should set sitemapIndex property', function() {
-      expect(page.isSitemap).to.equal(true);
-    });
-    
-    it('should not set sitemap property', function() {
-      expect(page.sitemap).to.equal(undefined);
-    });
-    
-    it('should add sitemaps to sitemap index', function() {
-      expect(page.locals.sitemaps[0].isInSitemap).to.equal(undefined);
-      expect(page.locals.sitemaps[1].isInSitemap).to.equal(true);
-    });
-  }); // with one sitemap
+        expect(this.body).to.equal(expected);
+        expect(this.isSitemap).to.equal(true);
+        expect(this.locals.sitemaps[0].isInSitemap).to.equal(true);
+        done();
+      })
+      .generate();
+  }); // should include sitemap
   
   describe('with two sitemaps', function() {
     var page, err;
