@@ -43,7 +43,7 @@ docs.page('/sitemap.xml', sitemap());
 
 site.use('/docs', docs);
 site.page('/sitemap.xml', sitemap());
-site.page('/sitemap-index.xml', sitemap.index());
+site.page('/sitemap_index.xml', sitemap.index());
 
 site.generate({
   '/docs': [
