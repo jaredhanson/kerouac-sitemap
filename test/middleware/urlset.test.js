@@ -326,7 +326,7 @@ describe('middleware/urlset', function() {
         page.absoluteURL = '/sitemap.xml';
         page.locals = {};
         page.locals.pages = [
-          { path: '/hello.html', absoluteURL: '/hello' },
+          { path: '/hello.html', url: '/hello' },
         ];
       })
       .next(function(err) {
