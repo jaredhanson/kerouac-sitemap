@@ -20,7 +20,7 @@ var sitemap = require('kerouac-sitemap');
 site.page('/sitemap.xml', sitemap());
 ```
 
-And map a `sitemap.xml` file when generating the site.
+Map a `sitemap.xml` file when generating the site.
 
 ```js
 site.generate([
