@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2023-12-13
+
 ## [0.4.2] - 2018-09-12
 
 ## [0.4.1] - 2018-09-12
@@ -24,7 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release.
 
-[Unreleased]: https://github.com/jaredhanson/kerouac-sitemap/compare/v0.4.2...HEAD
+[Unreleased]: https://github.com/jaredhanson/kerouac-sitemap/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/jaredhanson/kerouac-sitemap/compare/v0.4.2...v0.5.0
 [0.4.2]: https://github.com/jaredhanson/kerouac-sitemap/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/jaredhanson/kerouac-sitemap/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/jaredhanson/kerouac-sitemap/compare/v0.3.0...v0.4.0
