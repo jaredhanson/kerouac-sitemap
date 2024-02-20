@@ -118,7 +118,7 @@ describe('middleware/sitemapindex', function() {
         page.absoluteURL = '/sitemap_index.xml';
         page.locals = {};
         page.locals.sitemaps = [
-          { absoluteURL: '/sitemap.xml', isSitemap: true }
+          { path: '/sitemap.xml', isSitemap: true }
         ];
       })
       .next(function(err) {
