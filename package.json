@@ -37,7 +37,8 @@
     "make-node": "0.3.x",
     "mocha": "1.x.x",
     "chai": "1.x.x",
-    "chai-kerouac-middleware": "0.0.x"
+    "chai-kerouac-mapper": "^0.0.1",
+    "chai-kerouac-middleware": "0.1.x"
   },
   "engines": {
     "node": ">= 0.6.0"
